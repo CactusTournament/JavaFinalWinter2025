@@ -26,6 +26,27 @@ public class User {
     private String email;
 
     /**
+     * Constructor to initialize a User object.
+     * 
+     * @param userId Unique identifier for the user
+     * @param userName Name of the user
+     * @param passwordHash Hashed password for security
+     * @param email Email address of the user
+     * @param userPhoneNumber Phone number of the user
+     * @param userAddress Address of the user
+     * @param userRole Role of the user ('Admin', 'Trainer', 'Member')
+     */
+    public User(int userId, String userName,  String passwordHash, String email, String userPhoneNumber, String userAddress, String userRole) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userAddress = userAddress;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userRole = userRole;
+        this.passwordHash = passwordHash;
+        this.email = email;
+    }
+
+    /**
      * Getter for userId.
      * @return the userId
      */
