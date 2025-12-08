@@ -6,14 +6,33 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * WorkoutClass Data Access Object (DAO)
+ * Handles CRUD operations for WorkoutClass entities in the database.
+ * Provides methods to create, read, update, and delete workout class records.
+ * 
+ * Author: Brandon Maloney
+ * Date: 2025-12-07
+ */
 public class WorkoutClassDAO {
+    /**
+     * Database connection
+     */
     private Connection conn;
 
+    /**
+     * Constructor
+     * @param conn
+     */
     public WorkoutClassDAO(Connection conn) {
         this.conn = conn;
     }
 
-    // Add WorkoutClass
+    /**
+     * Add a new workout class
+     * @param wc the workout class to add
+     * @throws SQLException
+     */
     public void addWorkoutClass(WorkoutClass wc) throws SQLException {
         String sql = "INSERT INTO WorkoutClasses (workoutClassID, workoutClassType, workoutClassDescription, trainerID) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -25,7 +44,11 @@ public class WorkoutClassDAO {
         }
     }
 
-    // Get all workout classes
+    /**
+     * Get all workout classes
+     * @return List of WorkoutClass
+     * @throws SQLException
+     */
     public List<WorkoutClass> getAllWorkoutClasses() throws SQLException {
         List<WorkoutClass> list = new ArrayList<>();
         String sql = "SELECT * FROM WorkoutClasses";
