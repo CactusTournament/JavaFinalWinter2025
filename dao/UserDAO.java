@@ -1,20 +1,32 @@
 package JavaFinalWinter2025.dao;
 
 import JavaFinalWinter2025.User;
-import JavaFinalWinter2025.utils.DatabaseConnection;
-import JavaFinalWinter2025.utils.PasswordUtil;  // Import PasswordUtil
+import JavaFinalWinter2025.DatabaseConnection;
+import JavaFinalWinter2025.utils.PasswordUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * User Data Access Object (DAO)
+ * Handles CRUD operations for User entities in the database.
+ * Provides methods to create, read, update, and delete user records.
+ * 
+ * Author: Brandon Maloney
+ * Date: 2025-12-07
+ */
 public class UserDAO {
 
-    // Create a user in the database
+    /**
+     * Create a new user
+     * @param user the user to create
+     * @return boolean true indicating success
+     */
     public boolean createUser(User user) {
         String query = "INSERT INTO Users (userName, userAddress, userPhoneNumber, userRole, passwordHash, email) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-            
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query)) {
+        
             // Hash password before saving
             String hashedPassword = PasswordUtil.hashPassword(user.getPasswordHash());
             
@@ -31,10 +43,14 @@ public class UserDAO {
         return false;
     }
 
-    // Retrieve a user by ID
+    /**
+     * Get a user by ID
+     * @param userId the user's ID
+     * @return User the user object, or null if not found
+     */
     public User getUserById(int userId) {
         String query = "SELECT * FROM Users WHERE userId = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DatabaseConnection.getcon();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
@@ -55,13 +71,16 @@ public class UserDAO {
         return null;
     }
 
-    // Retrieve all users
+    /**
+     * Get all users
+     * @return List<User> list of all users
+     */
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String query = "SELECT * FROM Users";
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 users.add(new User(
                         rs.getInt("userId"),
@@ -79,11 +98,15 @@ public class UserDAO {
         return users;
     }
 
-    // Update a user's information
+    /**
+     * Update a user
+     * @param user the user to update
+     * @return boolean true if update was successful
+     */
     public boolean updateUser(User user) {
         String query = "UPDATE Users SET userName = ?, userAddress = ?, userPhoneNumber = ?, userRole = ?, passwordHash = ?, email = ? WHERE userId = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, user.getUserName());
             ps.setString(2, user.getUserAddress());
             ps.setString(3, user.getUserPhoneNumber());
@@ -98,11 +121,15 @@ public class UserDAO {
         return false;
     }
 
-    // Delete a user by ID
+    /**
+     * Delete a user by ID
+     * @param userId the user's ID
+     * @return boolean true if deletion was successful
+     */
     public boolean deleteUser(int userId) {
         String query = "DELETE FROM Users WHERE userId = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, userId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {

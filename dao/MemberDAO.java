@@ -1,18 +1,30 @@
 package JavaFinalWinter2025.dao;
 
 import JavaFinalWinter2025.Member;
-import JavaFinalWinter2025.utils.DatabaseConnection;
+import JavaFinalWinter2025.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Member Data Access Object (DAO)
+ * Handles CRUD operations for Member users in the database.
+ * Provides methods to create, read, update, and delete member records.
+ * 
+ * Author: Brandon Maloney
+ * Date: 2025-12-07
+ */
 public class MemberDAO {
 
-    // Create a new member
+    /**
+     * Creates a new member
+     * @param member the member to create
+     * @return boolean true indicating success
+     */
     public boolean createMember(Member member) {
         String query = "INSERT INTO Users (userName, userAddress, userPhoneNumber, userRole, passwordHash, email) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, member.getUserName());
             ps.setString(2, member.getUserAddress());
             ps.setString(3, member.getUserPhoneNumber());
@@ -26,11 +38,16 @@ public class MemberDAO {
         return false;
     }
 
-    // Get member by ID
+    /**
+     * Get a member by ID
+     * 
+     * @param userId the member's user ID
+     * @return Member the member object, or null if not found
+     */
     public Member getMemberById(int userId) {
         String query = "SELECT * FROM Users WHERE userId = ? AND userRole = 'Member'";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -49,13 +66,17 @@ public class MemberDAO {
         return null;
     }
 
-    // Get all members
+    /**
+     * Get all members
+     * 
+     * @return List<Member> list of all members
+     */
     public List<Member> getAllMembers() {
         List<Member> members = new ArrayList<>();
         String query = "SELECT * FROM Users WHERE userRole = 'Member'";
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 members.add(new Member(
                         rs.getInt("userId"),
@@ -72,11 +93,15 @@ public class MemberDAO {
         return members;
     }
 
-    // Update a member
+    /**
+     * Update a member's information
+     * @param member the member with updated information
+     * @return boolean true if update was successful, false otherwise
+     */
     public boolean updateMember(Member member) {
         String query = "UPDATE Users SET userName = ?, userAddress = ?, userPhoneNumber = ?, passwordHash = ?, email = ? WHERE userId = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, member.getUserName());
             ps.setString(2, member.getUserAddress());
             ps.setString(3, member.getUserPhoneNumber());
@@ -90,11 +115,16 @@ public class MemberDAO {
         return false;
     }
 
-    // Delete a member by ID
+    /**
+     * Delete a member by ID
+     * 
+     * @param userId the member's user ID
+     * @return boolean true if deletion was successful, false otherwise
+     */
     public boolean deleteMember(int userId) {
         String query = "DELETE FROM Users WHERE userId = ? AND userRole = 'Member'";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, userId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {

@@ -2,7 +2,7 @@ package JavaFinalWinter2025.dao;
 
 
 import JavaFinalWinter2025.Trainer;
-import JavaFinalWinter2025.utils.DatabaseConnection;
+import JavaFinalWinter2025.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,8 @@ public class TrainerDAO {
 
     public boolean createTrainer(Trainer trainer) {
         String query = "INSERT INTO Trainers (trainerName, trainerSpecialty, trainerCertification) VALUES (?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, trainer.getTrainerName());
             ps.setString(2, trainer.getTrainerSpecialty());
             ps.setString(3, trainer.getTrainerCertification());
@@ -27,8 +27,8 @@ public class TrainerDAO {
 
     public Trainer getTrainerById(int trainerID) {
         String query = "SELECT * FROM Trainers WHERE trainerID = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, trainerID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -44,7 +44,7 @@ public class TrainerDAO {
     public List<Trainer> getAllTrainers() {
         List<Trainer> trainers = new ArrayList<>();
         String query = "SELECT * FROM Trainers";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DatabaseConnection.getcon();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
@@ -59,8 +59,8 @@ public class TrainerDAO {
 
     public boolean updateTrainer(Trainer trainer) {
         String query = "UPDATE Trainers SET trainerName = ?, trainerSpecialty = ?, trainerCertification = ? WHERE trainerID = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, trainer.getTrainerName());
             ps.setString(2, trainer.getTrainerSpecialty());
             ps.setString(3, trainer.getTrainerCertification());
@@ -74,8 +74,8 @@ public class TrainerDAO {
 
     public boolean deleteTrainer(int trainerID) {
         String query = "DELETE FROM Trainers WHERE trainerID = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, trainerID);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {

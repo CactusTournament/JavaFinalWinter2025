@@ -9,7 +9,6 @@ import java.sql.*;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class DatabaseConnection {
-
     private static final Dotenv dotenv = Dotenv.load();
 
     private static final String url = dotenv.get("DB_URL");
