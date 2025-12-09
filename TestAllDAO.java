@@ -8,8 +8,18 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * TestAllDAO class to test all DAO functionalities.
+ * 
+ * @author: Brandon Maloney
+ */
 public class TestAllDAO {
 
+    /**
+     * Main method to run all DAO tests.
+     * 
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         try {
             testTrainerDAO();
@@ -57,10 +67,19 @@ public class TestAllDAO {
     }
 
 
+    /**
+     * Generates a unique string based on the current time in milliseconds.
+     * @return A unique string.
+     */
     private static String unique() {
         return String.valueOf(System.currentTimeMillis());
     }
 
+    /**
+     * Tests the TrainerDAO functionalities.
+     * 
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testTrainerDAO() throws SQLException {
         System.out.println("\nTesting TrainerDAO...");
         TrainerDAO dao = new TrainerDAO();
@@ -83,6 +102,11 @@ public class TestAllDAO {
         }
     }
 
+    /**
+     * Tests the AdminDAO functionalities.
+     * 
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testAdminDAO() throws SQLException {
         System.out.println("\nTesting AdminDAO...");
         AdminDAO dao = new AdminDAO();
@@ -105,6 +129,11 @@ public class TestAllDAO {
         }
     }
 
+    /**
+     * Tests the UserDAO functionalities.
+     * 
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testUserDAO() throws SQLException {
         System.out.println("\nTesting UserDAO...");
         UserDAO dao = new UserDAO();
@@ -127,6 +156,11 @@ public class TestAllDAO {
         }
     }
 
+    /**
+     * Tests the MemberDAO functionalities.
+     * 
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testMemberDAO() throws SQLException {
         System.out.println("\nTesting MemberDAO...");
         MemberDAO dao = new MemberDAO();
@@ -149,6 +183,11 @@ public class TestAllDAO {
         }
     }
 
+    /**
+     * Tests the GymMerchDAO functionalities.
+     * 
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testGymMerchDAO() throws SQLException {
         System.out.println("\nTesting GymMerchDAO...");
         GymMerchDAO dao = new GymMerchDAO();
@@ -170,6 +209,11 @@ public class TestAllDAO {
         }
     }
 
+    /**
+     * Tests the MembershipDAO functionalities.
+     * 
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testMembershipDAO() throws SQLException {
         System.out.println("\nTesting MembershipDAO...");
         MembershipDAO dao = new MembershipDAO();
@@ -199,6 +243,11 @@ public class TestAllDAO {
         }
     }
 
+    /**
+     * Tests the WorkoutClassDAO functionalities.
+     * 
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testWorkoutClassDAO() throws SQLException {
         System.out.println("\nTesting WorkoutClassDAO...");
         try (Connection conn = DatabaseConnection.getcon()) {
