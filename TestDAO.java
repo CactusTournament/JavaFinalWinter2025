@@ -1,6 +1,8 @@
 package JavaFinalWinter2025;
 
 import JavaFinalWinter2025.dao.UserDAO;
+import JavaFinalWinter2025.src.User;
+
 import java.util.List;
 
 public class TestDAO {

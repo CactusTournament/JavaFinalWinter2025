@@ -1,4 +1,4 @@
-package JavaFinalWinter2025;
+package JavaFinalWinter2025.src;
 
 public class Trainer extends User {
 

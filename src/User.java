@@ -1,4 +1,4 @@
-package JavaFinalWinter2025;
+package JavaFinalWinter2025.src;
 
 /**
  * User class representing a user in the system.

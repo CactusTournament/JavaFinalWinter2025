@@ -1,6 +1,6 @@
 package JavaFinalWinter2025.dao;
 
-import JavaFinalWinter2025.User;
+import JavaFinalWinter2025.src.User;
 import JavaFinalWinter2025.utils.DatabaseConnection;
 import JavaFinalWinter2025.utils.PasswordUtil;
 import java.sql.*;

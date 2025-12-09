@@ -1,6 +1,8 @@
 package JavaFinalWinter2025;
 
 import JavaFinalWinter2025.dao.*;
+import JavaFinalWinter2025.src.Trainer;
+import JavaFinalWinter2025.src.User;
 import JavaFinalWinter2025.utils.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.SQLException;

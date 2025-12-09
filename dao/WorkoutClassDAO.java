@@ -1,6 +1,6 @@
 package JavaFinalWinter2025.dao;
 
-import JavaFinalWinter2025.WorkoutClass;
+import JavaFinalWinter2025.src.WorkoutClass;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
