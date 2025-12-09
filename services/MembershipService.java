@@ -3,6 +3,8 @@ package JavaFinalWinter2025.services;
 import JavaFinalWinter2025.dao.MembershipDAO;
 import JavaFinalWinter2025.src.Membership;
 import java.util.List;
+import JavaFinalWinter2025.utils.LoggerUtil;
+import java.util.logging.Logger;
 
 /**
  * MembershipService
@@ -15,8 +17,10 @@ import java.util.List;
 public class MembershipService {
     /**
      * MembershipDAO instance for database operations.
+     * Logger for logging events.
      */
     private MembershipDAO membershipDAO;
+    private static final Logger logger = LoggerUtil.getLogger();
 
     /**
      * Constructor to initialize MembershipService with a MembershipDAO instance.
@@ -32,8 +36,19 @@ public class MembershipService {
      * 
      * @param membership The Membership object to add.
      */
-    public void addMembership(Membership membership) {
-        membershipDAO.createMembership(membership);
+    public Membership addMembership(Membership membership) {
+        try {
+            boolean success = membershipDAO.createMembership(membership);
+            if (success) {
+                logger.info("Membership added successfully: " + membership.getMembershipType() + "Success: " + success);
+                return membership;
+            } else {
+                logger.warning("Failed to add membership: " + membership.getMembershipType());
+            }
+        } catch (Exception e) {
+            logger.severe("Error adding membership: " + e.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -43,7 +58,18 @@ public class MembershipService {
      * @return The Membership object if found; null otherwise.
      */
     public Membership getMembership(int id) {
-        return membershipDAO.getMembershipById(id);
+        try {
+            Membership membership = membershipDAO.getMembershipById(id);
+            if (membership != null) {
+                logger.info("Membership retrieved successfully: ID " + id);
+            } else {
+                logger.warning("Membership not found: ID " + id);
+            }
+            return membership;
+        } catch (Exception e) {
+            logger.severe("Error retrieving membership: " + e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -52,7 +78,14 @@ public class MembershipService {
      * @return List of all Membership objects.
      */
     public List<Membership> getAllMemberships() {
-        return membershipDAO.getAllMemberships();
+        try {
+            List<Membership> memberships = membershipDAO.getAllMemberships();
+            logger.info("Retrieved " + memberships.size() + " memberships from the database." + memberships);
+            return memberships;
+        } catch (Exception e) {
+            logger.severe("Error retrieving all memberships: " + e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -61,7 +94,16 @@ public class MembershipService {
      * @param membership The Membership object with updated details.
      */
     public void updateMembership(Membership membership) {
-        membershipDAO.updateMembership(membership);
+        try {
+            boolean success = membershipDAO.updateMembership(membership);
+            if (success) {
+                logger.info("Membership updated successfully: ID " + membership.getMembershipID());
+            } else {
+                logger.warning("Failed to update membership: ID " + membership.getMembershipID());
+            }
+        } catch (Exception e) {
+            logger.severe("Error updating membership: " + e.getMessage());
+        }
     }
 
     /**
@@ -70,7 +112,16 @@ public class MembershipService {
      * @param id The ID of the membership to delete.
      */
     public void deleteMembership(int id) {
-        membershipDAO.deleteMembership(id);
+        try {
+            boolean success = membershipDAO.deleteMembership(id);
+            if (success) {
+                logger.info("Membership deleted successfully: ID " + id);
+            } else {
+                logger.warning("Failed to delete membership: ID " + id);
+            }
+        } catch (Exception e) {
+            logger.severe("Error deleting membership: " + e.getMessage());
+        }
     }
 }
 
