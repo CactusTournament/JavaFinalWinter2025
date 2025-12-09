@@ -1,7 +1,10 @@
 // RECOMPILING
-// javac -d . -cp "lib/java-dotenv-3.1.5.jar:lib/kotlin-stdlib-1.8.22.jar:lib/postgresql-42.6.0.jar" DatabaseConnection.java
-// java -cp ".:lib/java-dotenv-3.1.5.jar:lib/kotlin-stdlib-1.8.22.jar:lib/postgresql-42.6.0.jar" JavaFinalWinter2025.DatabaseConnection
+// javac -d . -cp "lib/java-dotenv-3.1.5.jar:lib/kotlin-stdlib-1.8.22.jar:lib/postgresql-42.6.0.jar:lib/jbcrypt-0.4.jar" utils/DatabaseConnection.java
+// java -cp ".:lib/java-dotenv-3.1.5.jar:lib/kotlin-stdlib-1.8.22.jar:lib/postgresql-42.6.0.jar" JavaFinalWinter2025.utils.DatabaseConnection
 
+// NEW RECOMPILING
+// * javac -d classes -cp "lib/*" $(find . -name "*.java”) COMPILE TO CLASSES
+// * java -cp "classes:lib/*" JavaFinalWinter2025.TestAllDAO RUN DAO TEST
 
 package JavaFinalWinter2025.utils;
 
