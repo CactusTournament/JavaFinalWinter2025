@@ -33,6 +33,9 @@ public class TestAllServices {
         userService.registerUser(user);
         System.out.println("User registered: " + user);
 
+        userService.login(user.getUserName(), user.getPasswordHash());
+        System.out.println("User logged in: " + user.getUserName());
+
         List<User> users = userService.getAllUsers();
         System.out.println("All Users: " + users);
 
@@ -49,7 +52,7 @@ public class TestAllServices {
         MembershipDAO membershipDAO = new MembershipDAO();
         MembershipService membershipService = new MembershipService(membershipDAO);
 
-        // Ensure a member exists
+        // Ensures a member exists
         MemberDAO memberDAO = new MemberDAO();
         String email = "member" + unique() + "@test.com";
         Member member = new Member(0, "Member One", "hashedPass", email, "5556667777", "102 Main St");
@@ -57,11 +60,26 @@ public class TestAllServices {
         int memberId = memberDAO.getAllMembers().get(0).getUserId();
 
         Membership membership = new Membership(0, "Standard", "Basic membership", 49.99, memberId);
+        Membership membership2 = new Membership(0, "Premium", "Premium membership", 79.99, memberId);
+        Membership membership3 = new Membership(0, "VIP", "VIP membership", 99.99, memberId);
+
         membershipService.addMembership(membership);
         System.out.println("Membership added: " + membership);
 
+        membershipService.getMembership(membership.getMembershipID());
+        System.out.println("Membership retrieved: " + membership);
+
         List<Membership> memberships = membershipService.getAllMemberships();
         System.out.println("All Memberships: " + memberships);
+
+        membershipService.updateMembership(membership2);
+        System.out.println("Membership updated: " + membership2);
+
+        membershipService.addMembership(membership3);
+        System.out.println("Membership added: " + membership);
+
+        membershipService.deleteMembership(membership3.getMembershipID());
+        System.out.println("Membership deleted: " + membership3.getMembershipID());
 
         if (!memberships.isEmpty()) {
             Membership m = memberships.get(0);
@@ -81,7 +99,7 @@ public class TestAllServices {
             WorkoutClassDAO wcDAO = new WorkoutClassDAO(conn);
             WorkoutClassService wcService = new WorkoutClassService(wcDAO);
 
-            // Ensure a trainer exists
+            // Ensures a trainer exists
             TrainerDAO trainerDAO = new TrainerDAO();
             String email = "trainer" + unique() + "@test.com";
             Trainer trainer = new Trainer(0, "Trainer FK", "103 Main St", "8889990000", email, "pass");
@@ -89,21 +107,35 @@ public class TestAllServices {
             int trainerId = trainerDAO.getAllTrainers().get(0).getUserId();
 
             WorkoutClass wc = new WorkoutClass(0, "Yoga", "Morning Yoga Class", trainerId);
+            WorkoutClass wcToUpdate = new WorkoutClass(0, "Pilates", "Evening Pilates Class", trainerId);
+            WorkoutClass wcToDelete = new WorkoutClass(0, "Spin", "Afternoon Spin Class", trainerId);
+
             wcService.addWorkoutClass(wc);
             System.out.println("WorkoutClass added: " + wc);
+
+            wcService.getWorkoutClass(wc.getWorkoutClassID());
+            System.out.println("WorkoutClass retrieved: " + wc);
 
             List<WorkoutClass> classes = wcService.getAllWorkoutClasses();
             System.out.println("All WorkoutClasses: " + classes);
 
-            // if (!classes.isEmpty()) {
-            //     WorkoutClass c = classes.get(0);
-            //     c.setClassName("Updated Yoga");
-            //     wcService.updateWorkoutClass(c);
-            //     System.out.println("WorkoutClass updated: " + c);
+            wcService.updateWorkoutClass(wcToUpdate);
+            System.out.println("WorkoutClass updated: " + wcToUpdate);
 
-            //     wcService.deleteWorkoutClass(c.getWorkoutClassID());
-            //     System.out.println("WorkoutClass deleted: " + c.getWorkoutClassID());
-            // }
+            wcService.addWorkoutClass(wcToDelete);
+            System.out.println("WorkoutClass added: " + wcToDelete);
+            wcService.deleteWorkoutClass(wcToDelete.getWorkoutClassID());
+            System.out.println("WorkoutClass deleted: " + wcToDelete.getWorkoutClassID());
+
+            if (!classes.isEmpty()) {
+                WorkoutClass c = classes.get(0);
+                c.setWorkoutClassType("Updated Yoga");
+                wcService.updateWorkoutClass(c);
+                System.out.println("WorkoutClass updated: " + c);
+
+                wcService.deleteWorkoutClass(c.getWorkoutClassID());
+                System.out.println("WorkoutClass deleted: " + c.getWorkoutClassID());
+            }
         }
     }
 
@@ -114,11 +146,25 @@ public class TestAllServices {
         GymMerchService merchService = new GymMerchService(merchDAO);
 
         GymMerch merch = new GymMerch(0, "T-Shirt", "Clothing", 19.99, 10);
+        GymMerch merchToUpdate = new GymMerch(0, "Hoodie", "Clothing", 39.99, 5);
+        GymMerch merchToDelete = new GymMerch(0, "Water Bottle", "Accessory", 9.99, 20);
+
         merchService.addMerch(merch);
         System.out.println("GymMerch added: " + merch);
 
+        merchService.getMerch(merch.getMerchID());
+        System.out.println("GymMerch retrieved: " + merch);
+
         List<GymMerch> allMerch = merchService.getAllMerch();
         System.out.println("All GymMerch: " + allMerch);
+
+        merchService.updateMerch(merchToUpdate);
+        System.out.println("GymMerch updated: " + merchToUpdate);
+
+        merchService.addMerch(merchToDelete);
+        System.out.println("GymMerch added: " + merchToDelete);
+        merchService.deleteMerch(merchToDelete.getMerchID());
+        System.out.println("GymMerch deleted: " + merchToDelete.getMerchID());
 
         if (!allMerch.isEmpty()) {
             GymMerch m = allMerch.get(0);
@@ -132,3 +178,4 @@ public class TestAllServices {
     }
 }
 
+// private static void test
