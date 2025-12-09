@@ -3,13 +3,12 @@
 // java -cp ".:lib/java-dotenv-3.1.5.jar:lib/kotlin-stdlib-1.8.22.jar:lib/postgresql-42.6.0.jar" JavaFinalWinter2025.DatabaseConnection
 
 
-package JavaFinalWinter2025;
+package JavaFinalWinter2025.utils;
 
 import java.sql.*;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class DatabaseConnection {
-
     private static final Dotenv dotenv = Dotenv.load();
 
     private static final String url = dotenv.get("DB_URL");
