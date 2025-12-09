@@ -7,3 +7,4 @@ lib/.DS_Store
 .env2
 .env
 classes/
+gym_log.txt
