@@ -3,4 +3,7 @@ JavaFinalWinter2025/
 .DS_Store
 lib/.DS_Store
 *.class
-
+.vscode/
+.env2
+.env
+classes/
