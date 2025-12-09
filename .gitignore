@@ -2,3 +2,5 @@ JavaFinalWinter2025/
 .env
 .DS_Store
 lib/.DS_Store
+*.class
+
