@@ -1,13 +1,19 @@
-// RECOMPILING
-// javac -d . -cp "lib/java-dotenv-3.1.5.jar:lib/kotlin-stdlib-1.8.22.jar:lib/postgresql-42.6.0.jar" DatabaseConnection.java
-// java -cp ".:lib/java-dotenv-3.1.5.jar:lib/kotlin-stdlib-1.8.22.jar:lib/postgresql-42.6.0.jar" JavaFinalWinter2025.DatabaseConnection
-
+// NEW RECOMPILING
+// javac -d classes -cp "lib/*" $(find . -name "*.java") --------COMPILE TO CLASSES FOLDER
+// java -cp "classes:lib/*" JavaFinalWinter2025.tests.TestAllDAO -------RUN DAO TEST
+// java -cp "classes:lib/*" JavaFinalWinter2025.tests.TestAllServices -------RUN SERVICE TEST
 
 package JavaFinalWinter2025.utils;
 
 import java.sql.*;
 import io.github.cdimascio.dotenv.Dotenv;
 
+/**
+ * DatabaseConnection class to manage database connections.
+ * 
+ * @author: Abiodun Magret Oyedele
+ * Date: 2025-12-06
+ */
 public class DatabaseConnection {
     private static final Dotenv dotenv = Dotenv.load();
 
@@ -15,6 +21,10 @@ public class DatabaseConnection {
     private static final String user = dotenv.get("DB_USER");
     private static final String password = dotenv.get("DB_PASSWORD");
 
+    /**
+     * Get a connection to the database.
+     * @return Connection object
+     */
     public static Connection getcon() {
         Connection connection = null;
         try {
@@ -27,7 +37,11 @@ public class DatabaseConnection {
         return connection;
     }
 
-    // Add main method to test
+    /**
+     * Main method to test the database connection.
+     * @param args Command line arguments
+     */
+
     public static void main(String[] args) {
         Connection conn = getcon();
         if (conn != null) {

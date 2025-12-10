@@ -1,6 +1,6 @@
 package JavaFinalWinter2025.dao;
 
-import JavaFinalWinter2025.Member;
+import JavaFinalWinter2025.src.Member;
 import JavaFinalWinter2025.utils.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;

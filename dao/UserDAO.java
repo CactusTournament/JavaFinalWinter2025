@@ -1,6 +1,6 @@
 package JavaFinalWinter2025.dao;
 
-import JavaFinalWinter2025.User;
+import JavaFinalWinter2025.src.User;
 import JavaFinalWinter2025.utils.DatabaseConnection;
 import JavaFinalWinter2025.utils.PasswordUtil;
 import java.sql.*;
@@ -14,6 +14,7 @@ import java.util.List;
  * Passwords are hashed using PasswordUtil before being stored.
  * 
  * Author: Brandon Maloney
+ * Updated: Abiodun Magret Oyedele
  * Date: 2025-12-08
  */
 public class UserDAO {
@@ -43,6 +44,36 @@ public class UserDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * Retrieves a User by their username.
+     *
+     * @param username The username of the User.
+     * @return User object if found; null otherwise.
+     */
+    public User getUserByUsername(String username) {
+        String query = "SELECT * FROM Users WHERE userName = ?";
+        try {
+            Connection conn = DatabaseConnection.getcon();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("userId"),
+                        rs.getString("userName"),
+                        rs.getString("passwordHash"),
+                        rs.getString("email"),
+                        rs.getString("userPhoneNumber"),
+                        rs.getString("userAddress"),
+                        rs.getString("userRole")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

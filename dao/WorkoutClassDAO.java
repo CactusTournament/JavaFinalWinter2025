@@ -1,6 +1,6 @@
 package JavaFinalWinter2025.dao;
 
-import JavaFinalWinter2025.WorkoutClass;
+import JavaFinalWinter2025.src.WorkoutClass;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,10 @@ import java.util.List;
 /**
  * WorkoutClassDAO
  * Data Access Object (DAO) for performing operations on WorkoutClass records in the database.
- * Provides methods to add a workout class and retrieve all workout classes.
+ * Provides methods to add, retrieve, update, and delete workout classes.
  * 
  * Author: Brandon Maloney
+ * Updated by: Abiodun Magret Oyedele
  * Date: 2025-12-08
  */
 public class WorkoutClassDAO {
@@ -43,6 +44,31 @@ public class WorkoutClassDAO {
     }
 
     /**
+     * Retrieves a WorkoutClass by its ID.
+     * 
+     * @return WorkoutClass object if found, null otherwise.
+     * @throws SQLException if a database access error occurs.
+     */
+    public WorkoutClass getWorkoutClassById(int id) throws SQLException {
+        String sql = "SELECT * FROM WorkoutClasses WHERE workoutClassID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new WorkoutClass(
+                            rs.getInt("workoutClassID"),
+                            rs.getString("workoutClassType"),
+                            rs.getString("workoutClassDescription"),
+                            rs.getInt("trainerID")
+                    );
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+
+    /**
      * Retrieves all WorkoutClass records from the database.
      *
      * @return List of WorkoutClass objects. Returns an empty list if no records are found.
@@ -63,5 +89,36 @@ public class WorkoutClassDAO {
             }
         }
         return list;
+    }
+
+    /**
+     * Updates an existing WorkoutClass in the database.
+     *
+     * @param wc WorkoutClass object with updated information.
+     * @throws SQLException if a database access error occurs.
+     */
+    public void updateWorkoutClass(WorkoutClass wc) throws SQLException {
+        String sql = "UPDATE WorkoutClasses SET workoutClassType = ?, workoutClassDescription = ?, trainerID = ? WHERE workoutClassID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, wc.getWorkoutClassType());
+            pstmt.setString(2, wc.getWorkoutClassDescription());
+            pstmt.setInt(3, wc.getTrainerID());
+            pstmt.setInt(4, wc.getWorkoutClassID());
+            pstmt.executeUpdate();
+        }
+    }
+
+    /**
+     * Deletes a WorkoutClass from the database by its ID.
+     *
+     * @param id ID of the WorkoutClass to delete.
+     * @throws SQLException if a database access error occurs.
+     */
+    public void deleteWorkoutClass(int id) throws SQLException {
+        String sql = "DELETE FROM WorkoutClasses WHERE workoutClassID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        }
     }
 }
