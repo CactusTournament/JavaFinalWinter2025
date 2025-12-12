@@ -1,0 +1,182 @@
+Dec. 11, 2025 10:55:11 P.M. services.UserService registerUser
+INFO: User registered successfully: User One
+Dec. 11, 2025 10:55:11 P.M. services.UserService login
+INFO: Login successful for user: User One
+Dec. 11, 2025 10:55:11 P.M. services.UserService getAllUsers
+INFO: Retrieved 13 users from the database: [User{userId=56, userName='User One', userAddress='789 Main St', userPhoneNumber='7778889999', userRole='Member', email='user1765506310765@test.com'}, User{userId=25, userName='Member One', userAddress='101 Main St', userPhoneNumber='2223334444', userRole='Member', email='member1765489556673@test.com'}, User{userId=26, userName='Member FK', userAddress='102 Main St', userPhoneNumber='5556667777', userRole='Member', email='member1765489557273@test.com'}, User{userId=28, userName='Trainer One', userAddress='password123', userPhoneNumber='trainer1765493758721@test.com', userRole='Trainer', email='1112223333'}, User{userId=30, userName='User One', userAddress='789 Main St', userPhoneNumber='7778889999', userRole='Member', email='user1765493759491@test.com'}, User{userId=31, userName='Member One', userAddress='101 Main St', userPhoneNumber='2223334444', userRole='Member', email='member1765493759896@test.com'}, User{userId=32, userName='Member FK', userAddress='102 Main St', userPhoneNumber='5556667777', userRole='Member', email='member1765493760310@test.com'}, User{userId=35, userName='Admin One', userAddress='456 Main St', userPhoneNumber='4445556666', userRole='Admin', email='admin1765497588809@test.com'}, User{userId=49, userName='Temp Member', userAddress='456 Gym St', userPhoneNumber='2506005429', userRole='Member', email='memberMS1765506005429@test.com'}, User{userId=50, userName='Trainer One', userAddress='password123', userPhoneNumber='trainer1765506236216@test.com', userRole='Trainer', email='2506236228'}, User{userId=51, userName='Admin One', userAddress='456 Main St', userPhoneNumber='2506236945', userRole='Admin', email='admin1765506236945@test.com'}, User{userId=52, userName='User One', userAddress='789 Main St', userPhoneNumber='2506237744', userRole='Member', email='user1765506237744@test.com'}, User{userId=53, userName='Member One', userAddress='101 Main St', userPhoneNumber='2506238323', userRole='Member', email='member1765506238323@test.com'}]
+Dec. 11, 2025 10:55:12 P.M. services.UserService login
+INFO: Login failed for username: User One
+Dec. 11, 2025 10:55:12 P.M. services.MembershipService addMembership
+INFO: Membership added successfully: StandardSuccess: true
+Dec. 11, 2025 10:55:12 P.M. services.MembershipService getMembership
+WARNING: Membership not found: ID 0
+Dec. 11, 2025 10:55:12 P.M. services.MembershipService getAllMemberships
+INFO: Retrieved 1 memberships from the database.[Membership{membershipID=8, membershipType='Standard', membershipDescription='Basic membership', membershipCost=49.99, memberID=56}]
+Dec. 11, 2025 10:55:12 P.M. services.MembershipService updateMembership
+WARNING: Failed to update membership: ID 0
+Dec. 11, 2025 10:55:12 P.M. services.MembershipService addMembership
+INFO: Membership added successfully: VIPSuccess: true
+Dec. 11, 2025 10:55:12 P.M. services.MembershipService deleteMembership
+WARNING: Failed to delete membership: ID 0
+Dec. 11, 2025 10:55:12 P.M. services.MembershipService updateMembership
+INFO: Membership updated successfully: ID 8
+Dec. 11, 2025 10:55:13 P.M. services.MembershipService deleteMembership
+INFO: Membership deleted successfully: ID 8
+Dec. 11, 2025 10:55:13 P.M. services.WorkoutClassService createWorkoutClass
+INFO: Workout class added successfully: Yoga
+Dec. 11, 2025 10:55:13 P.M. services.WorkoutClassService getWorkoutClass
+INFO: Workout class retrieved: Yoga
+Dec. 11, 2025 10:55:13 P.M. services.WorkoutClassService getAllWorkoutClasses
+INFO: Retrieved 1 workout classes
+Dec. 11, 2025 10:55:13 P.M. services.WorkoutClassService updateWorkoutClass
+INFO: Workout class updated: Pilates
+Dec. 11, 2025 10:55:13 P.M. services.WorkoutClassService createWorkoutClass
+INFO: Workout class added successfully: Spin
+Dec. 11, 2025 10:55:13 P.M. services.WorkoutClassService deleteWorkoutClass
+INFO: Workout class deleted: ID 5
+Dec. 11, 2025 10:55:13 P.M. services.WorkoutClassService updateWorkoutClass
+INFO: Workout class updated: Updated Yoga
+Dec. 11, 2025 10:55:13 P.M. services.WorkoutClassService deleteWorkoutClass
+INFO: Workout class deleted: ID 4
+Dec. 11, 2025 10:55:13 P.M. services.GymMerchService addMerch
+INFO: Gym merchandise added successfully: T-Shirt
+Dec. 11, 2025 10:55:13 P.M. services.GymMerchService getMerch
+WARNING: Gym merchandise with ID 0 not found.
+Dec. 11, 2025 10:55:13 P.M. services.GymMerchService getAllMerch
+INFO: Retrieved 1 gym merchandise items from the database.
+Dec. 11, 2025 10:55:14 P.M. services.GymMerchService updateMerch
+WARNING: Gym merchandise update failed for: Hoodie
+Dec. 11, 2025 10:55:14 P.M. services.GymMerchService addMerch
+INFO: Gym merchandise added successfully: Water Bottle
+Dec. 11, 2025 10:55:14 P.M. services.GymMerchService deleteMerch
+WARNING: Gym merchandise deletion failed for ID: 0
+Dec. 11, 2025 10:55:14 P.M. services.GymMerchService updateMerch
+INFO: Gym merchandise updated successfully: Updated T-Shirt
+Dec. 11, 2025 10:55:14 P.M. services.GymMerchService deleteMerch
+INFO: Gym merchandise deleted successfully with ID: 11
+Dec. 11, 2025 11:02:40 P.M. services.UserService registerUser
+INFO: User registered successfully: User One
+Dec. 11, 2025 11:02:40 P.M. services.UserService login
+INFO: Login failed for username: User One
+Dec. 11, 2025 11:02:40 P.M. services.UserService getAllUsers
+INFO: Retrieved 16 users from the database: [User{userId=56, userName='User One', userAddress='789 Main St', userPhoneNumber='7778889999', userRole='Member', email='user1765506310765@test.com'}, User{userId=57, userName='Member One', userAddress='102 Main St', userPhoneNumber='5556667777', userRole='Member', email='member1765506312195@test.com'}, User{userId=58, userName='Trainer FK', userAddress='pass', userPhoneNumber='trainer1765506313218@test.com', userRole='Trainer', email='8889990000'}, User{userId=59, userName='User One', userAddress='789 Main St', userPhoneNumber='7778889999', userRole='Member', email='user1765506759560@test.com'}, User{userId=25, userName='Member One', userAddress='101 Main St', userPhoneNumber='2223334444', userRole='Member', email='member1765489556673@test.com'}, User{userId=26, userName='Member FK', userAddress='102 Main St', userPhoneNumber='5556667777', userRole='Member', email='member1765489557273@test.com'}, User{userId=28, userName='Trainer One', userAddress='password123', userPhoneNumber='trainer1765493758721@test.com', userRole='Trainer', email='1112223333'}, User{userId=30, userName='User One', userAddress='789 Main St', userPhoneNumber='7778889999', userRole='Member', email='user1765493759491@test.com'}, User{userId=31, userName='Member One', userAddress='101 Main St', userPhoneNumber='2223334444', userRole='Member', email='member1765493759896@test.com'}, User{userId=32, userName='Member FK', userAddress='102 Main St', userPhoneNumber='5556667777', userRole='Member', email='member1765493760310@test.com'}, User{userId=35, userName='Admin One', userAddress='456 Main St', userPhoneNumber='4445556666', userRole='Admin', email='admin1765497588809@test.com'}, User{userId=49, userName='Temp Member', userAddress='456 Gym St', userPhoneNumber='2506005429', userRole='Member', email='memberMS1765506005429@test.com'}, User{userId=50, userName='Trainer One', userAddress='password123', userPhoneNumber='trainer1765506236216@test.com', userRole='Trainer', email='2506236228'}, User{userId=51, userName='Admin One', userAddress='456 Main St', userPhoneNumber='2506236945', userRole='Admin', email='admin1765506236945@test.com'}, User{userId=52, userName='User One', userAddress='789 Main St', userPhoneNumber='2506237744', userRole='Member', email='user1765506237744@test.com'}, User{userId=53, userName='Member One', userAddress='101 Main St', userPhoneNumber='2506238323', userRole='Member', email='member1765506238323@test.com'}]
+Dec. 11, 2025 11:02:41 P.M. services.MembershipService addMembership
+INFO: Membership added successfully: StandardSuccess: true
+Dec. 11, 2025 11:02:41 P.M. services.MembershipService getMembership
+WARNING: Membership not found: ID 0
+Dec. 11, 2025 11:02:41 P.M. services.MembershipService getAllMemberships
+INFO: Retrieved 2 memberships from the database.[Membership{membershipID=9, membershipType='VIP', membershipDescription='VIP membership', membershipCost=99.99, memberID=56}, Membership{membershipID=10, membershipType='Standard', membershipDescription='Basic membership', membershipCost=49.99, memberID=56}]
+Dec. 11, 2025 11:02:41 P.M. services.MembershipService updateMembership
+WARNING: Failed to update membership: ID 0
+Dec. 11, 2025 11:02:41 P.M. services.MembershipService addMembership
+INFO: Membership added successfully: VIPSuccess: true
+Dec. 11, 2025 11:02:41 P.M. services.MembershipService deleteMembership
+WARNING: Failed to delete membership: ID 0
+Dec. 11, 2025 11:02:42 P.M. services.WorkoutClassService createWorkoutClass
+INFO: Workout class added successfully: Yoga
+Dec. 11, 2025 11:02:42 P.M. services.WorkoutClassService getWorkoutClass
+INFO: Workout class retrieved: Yoga
+Dec. 11, 2025 11:02:42 P.M. services.WorkoutClassService getAllWorkoutClasses
+INFO: Retrieved 1 workout classes
+Dec. 11, 2025 11:02:42 P.M. services.WorkoutClassService updateWorkoutClass
+INFO: Workout class updated: Pilates
+Dec. 11, 2025 11:02:42 P.M. services.WorkoutClassService createWorkoutClass
+INFO: Workout class added successfully: Spin
+Dec. 11, 2025 11:02:42 P.M. services.WorkoutClassService deleteWorkoutClass
+INFO: Workout class deleted: ID 7
+Dec. 11, 2025 11:02:42 P.M. services.GymMerchService addMerch
+INFO: Gym merchandise added successfully: T-Shirt
+Dec. 11, 2025 11:02:42 P.M. services.GymMerchService getMerch
+WARNING: Gym merchandise with ID 0 not found.
+Dec. 11, 2025 11:02:42 P.M. services.GymMerchService getAllMerch
+INFO: Retrieved 2 gym merchandise items from the database.
+Dec. 11, 2025 11:02:42 P.M. services.GymMerchService updateMerch
+WARNING: Gym merchandise update failed for: Hoodie
+Dec. 11, 2025 11:02:42 P.M. services.GymMerchService addMerch
+INFO: Gym merchandise added successfully: Water Bottle
+Dec. 11, 2025 11:02:42 P.M. services.GymMerchService deleteMerch
+WARNING: Gym merchandise deletion failed for ID: 0
+Dec. 12, 2025 9:55:02 A.M. services.UserService registerUser
+INFO: User registered successfully: User One
+Dec. 12, 2025 9:55:02 A.M. services.UserService login
+INFO: Login failed for username: User One
+Dec. 12, 2025 9:55:02 A.M. services.UserService getAllUsers
+INFO: Retrieved 18 users from the database: [User{userId=59, userName='User One', userAddress='789 Main St', userPhoneNumber='7778889999', userRole='Member', email='user1765506759560@test.com'}, User{userId=60, userName='Member One', userAddress='102 Main St', userPhoneNumber='5556667777', userRole='Member', email='member1765506760860@test.com'}, User{userId=62, userName='Trainer One', userAddress='password123', userPhoneNumber='trainer1765509310748@test.com', userRole='Trainer', email='2509310759'}, User{userId=64, userName='User One', userAddress='789 Main St', userPhoneNumber='2509312704', userRole='Member', email='user1765509312704@test.com'}, User{userId=65, userName='Member One', userAddress='101 Main St', userPhoneNumber='2509313504', userRole='Member', email='member1765509313504@test.com'}, User{userId=66, userName='Temp Member', userAddress='456 Gym St', userPhoneNumber='2509313980', userRole='Member', email='memberMS1765509313980@test.com'}, User{userId=67, userName='Temp Trainer', userAddress='password123', userPhoneNumber='trainerWC1765509314566@test.com', userRole='Trainer', email='2509314566'}, User{userId=68, userName='User One', userAddress='789 Main St', userPhoneNumber='7778889999', userRole='Member', email='user1765545901247@test.com'}, User{userId=25, userName='Member One', userAddress='101 Main St', userPhoneNumber='2223334444', userRole='Member', email='member1765489556673@test.com'}, User{userId=26, userName='Member FK', userAddress='102 Main St', userPhoneNumber='5556667777', userRole='Member', email='member1765489557273@test.com'}, User{userId=28, userName='Trainer One', userAddress='password123', userPhoneNumber='trainer1765493758721@test.com', userRole='Trainer', email='1112223333'}, User{userId=30, userName='User One', userAddress='789 Main St', userPhoneNumber='7778889999', userRole='Member', email='user1765493759491@test.com'}, User{userId=31, userName='Member One', userAddress='101 Main St', userPhoneNumber='2223334444', userRole='Member', email='member1765493759896@test.com'}, User{userId=32, userName='Member FK', userAddress='102 Main St', userPhoneNumber='5556667777', userRole='Member', email='member1765493760310@test.com'}, User{userId=35, userName='Admin One', userAddress='456 Main St', userPhoneNumber='4445556666', userRole='Admin', email='admin1765497588809@test.com'}, User{userId=49, userName='Temp Member', userAddress='456 Gym St', userPhoneNumber='2506005429', userRole='Member', email='memberMS1765506005429@test.com'}, User{userId=51, userName='Admin One', userAddress='456 Main St', userPhoneNumber='2506236945', userRole='Admin', email='admin1765506236945@test.com'}, User{userId=52, userName='User One', userAddress='789 Main St', userPhoneNumber='2506237744', userRole='Member', email='user1765506237744@test.com'}]
+Dec. 12, 2025 9:55:02 A.M. services.MembershipService addMembership
+INFO: Membership added successfully: StandardSuccess: true
+Dec. 12, 2025 9:55:03 A.M. services.MembershipService getMembership
+WARNING: Membership not found: ID 0
+Dec. 12, 2025 9:55:03 A.M. services.MembershipService getAllMemberships
+INFO: Retrieved 1 memberships from the database.[Membership{membershipID=13, membershipType='Standard', membershipDescription='Basic membership', membershipCost=49.99, memberID=59}]
+Dec. 12, 2025 9:55:03 A.M. services.MembershipService updateMembership
+WARNING: Failed to update membership: ID 0
+Dec. 12, 2025 9:55:03 A.M. services.MembershipService addMembership
+INFO: Membership added successfully: VIPSuccess: true
+Dec. 12, 2025 9:55:03 A.M. services.MembershipService deleteMembership
+WARNING: Failed to delete membership: ID 0
+Dec. 12, 2025 9:55:03 A.M. services.WorkoutClassService createWorkoutClass
+INFO: Workout class added successfully: Yoga
+Dec. 12, 2025 9:55:03 A.M. services.WorkoutClassService getWorkoutClass
+INFO: Workout class retrieved: Yoga
+Dec. 12, 2025 9:55:03 A.M. services.WorkoutClassService getAllWorkoutClasses
+INFO: Retrieved 2 workout classes
+Dec. 12, 2025 9:55:03 A.M. services.WorkoutClassService updateWorkoutClass
+INFO: Workout class updated: Pilates
+Dec. 12, 2025 9:55:03 A.M. services.WorkoutClassService createWorkoutClass
+INFO: Workout class added successfully: Spin
+Dec. 12, 2025 9:55:04 A.M. services.WorkoutClassService deleteWorkoutClass
+INFO: Workout class deleted: ID 10
+Dec. 12, 2025 9:55:04 A.M. services.GymMerchService addMerch
+INFO: Gym merchandise added successfully: T-Shirt
+Dec. 12, 2025 9:55:04 A.M. services.GymMerchService getMerch
+WARNING: Gym merchandise with ID 0 not found.
+Dec. 12, 2025 9:55:04 A.M. services.GymMerchService getAllMerch
+INFO: Retrieved 4 gym merchandise items from the database.
+Dec. 12, 2025 9:55:04 A.M. services.GymMerchService updateMerch
+WARNING: Gym merchandise update failed for: Hoodie
+Dec. 12, 2025 9:55:04 A.M. services.GymMerchService addMerch
+INFO: Gym merchandise added successfully: Water Bottle
+Dec. 12, 2025 9:55:04 A.M. services.GymMerchService deleteMerch
+WARNING: Gym merchandise deletion failed for ID: 0
+Dec. 12, 2025 11:24:35 A.M. services.UserService registerUser
+INFO: User registered successfully: User One
+Dec. 12, 2025 11:24:36 A.M. services.UserService login
+INFO: Login failed for username: User One
+Dec. 12, 2025 11:24:36 A.M. services.UserService getAllUsers
+INFO: Retrieved 21 users from the database: [User{userId=64, userName='User One', userAddress='789 Main St', userPhoneNumber='2509312704', userRole='Member', email='user1765509312704@test.com'}, User{userId=65, userName='Member One', userAddress='101 Main St', userPhoneNumber='2509313504', userRole='Member', email='member1765509313504@test.com'}, User{userId=66, userName='Temp Member', userAddress='456 Gym St', userPhoneNumber='2509313980', userRole='Member', email='memberMS1765509313980@test.com'}, User{userId=67, userName='Temp Trainer', userAddress='password123', userPhoneNumber='trainerWC1765509314566@test.com', userRole='Trainer', email='2509314566'}, User{userId=68, userName='User One', userAddress='789 Main St', userPhoneNumber='7778889999', userRole='Member', email='user1765545901247@test.com'}, User{userId=69, userName='Member One', userAddress='102 Main St', userPhoneNumber='5556667777', userRole='Member', email='member1765545902660@test.com'}, User{userId=70, userName='Trainer FK', userAddress='pass', userPhoneNumber='trainer1765545903505@test.com', userRole='Trainer', email='8889990000'}, User{userId=71, userName='Trainer One', userAddress='password123', userPhoneNumber='trainer1765551258545@test.com', userRole='Trainer', email='2551258557'}, User{userId=73, userName='User One', userAddress='789 Main St', userPhoneNumber='2551260614', userRole='Member', email='user1765551260614@test.com'}, User{userId=74, userName='Member One', userAddress='101 Main St', userPhoneNumber='2551261305', userRole='Member', email='member1765551261305@test.com'}, User{userId=75, userName='Temp Member', userAddress='456 Gym St', userPhoneNumber='2551261881', userRole='Member', email='memberMS1765551261881@test.com'}, User{userId=76, userName='Temp Trainer', userAddress='password123', userPhoneNumber='trainerWC1765551262041@test.com', userRole='Trainer', email='2551262041'}, User{userId=77, userName='User One', userAddress='789 Main St', userPhoneNumber='7778889999', userRole='Member', email='user1765551275057@test.com'}, User{userId=25, userName='Member One', userAddress='101 Main St', userPhoneNumber='2223334444', userRole='Member', email='member1765489556673@test.com'}, User{userId=26, userName='Member FK', userAddress='102 Main St', userPhoneNumber='5556667777', userRole='Member', email='member1765489557273@test.com'}, User{userId=30, userName='User One', userAddress='789 Main St', userPhoneNumber='7778889999', userRole='Member', email='user1765493759491@test.com'}, User{userId=31, userName='Member One', userAddress='101 Main St', userPhoneNumber='2223334444', userRole='Member', email='member1765493759896@test.com'}, User{userId=32, userName='Member FK', userAddress='102 Main St', userPhoneNumber='5556667777', userRole='Member', email='member1765493760310@test.com'}, User{userId=35, userName='Admin One', userAddress='456 Main St', userPhoneNumber='4445556666', userRole='Admin', email='admin1765497588809@test.com'}, User{userId=49, userName='Temp Member', userAddress='456 Gym St', userPhoneNumber='2506005429', userRole='Member', email='memberMS1765506005429@test.com'}, User{userId=51, userName='Admin One', userAddress='456 Main St', userPhoneNumber='2506236945', userRole='Admin', email='admin1765506236945@test.com'}]
+Dec. 12, 2025 11:24:36 A.M. services.MembershipService addMembership
+INFO: Membership added successfully: StandardSuccess: true
+Dec. 12, 2025 11:24:36 A.M. services.MembershipService getMembership
+WARNING: Membership not found: ID 0
+Dec. 12, 2025 11:24:36 A.M. services.MembershipService getAllMemberships
+INFO: Retrieved 1 memberships from the database.[Membership{membershipID=16, membershipType='Standard', membershipDescription='Basic membership', membershipCost=49.99, memberID=64}]
+Dec. 12, 2025 11:24:36 A.M. services.MembershipService updateMembership
+WARNING: Failed to update membership: ID 0
+Dec. 12, 2025 11:24:36 A.M. services.MembershipService addMembership
+INFO: Membership added successfully: VIPSuccess: true
+Dec. 12, 2025 11:24:37 A.M. services.MembershipService deleteMembership
+WARNING: Failed to delete membership: ID 0
+Dec. 12, 2025 11:24:37 A.M. services.WorkoutClassService createWorkoutClass
+INFO: Workout class added successfully: Yoga
+Dec. 12, 2025 11:24:37 A.M. services.WorkoutClassService getWorkoutClass
+INFO: Workout class retrieved: Yoga
+Dec. 12, 2025 11:24:37 A.M. services.WorkoutClassService getAllWorkoutClasses
+INFO: Retrieved 3 workout classes
+Dec. 12, 2025 11:24:37 A.M. services.WorkoutClassService updateWorkoutClass
+INFO: Workout class updated: Pilates
+Dec. 12, 2025 11:24:37 A.M. services.WorkoutClassService createWorkoutClass
+INFO: Workout class added successfully: Spin
+Dec. 12, 2025 11:24:37 A.M. services.WorkoutClassService deleteWorkoutClass
+INFO: Workout class deleted: ID 13
+Dec. 12, 2025 11:24:37 A.M. services.GymMerchService addMerch
+INFO: Gym merchandise added successfully: T-Shirt
+Dec. 12, 2025 11:24:37 A.M. services.GymMerchService getMerch
+WARNING: Gym merchandise with ID 0 not found.
+Dec. 12, 2025 11:24:38 A.M. services.GymMerchService getAllMerch
+INFO: Retrieved 6 gym merchandise items from the database.
+Dec. 12, 2025 11:24:38 A.M. services.GymMerchService updateMerch
+WARNING: Gym merchandise update failed for: Hoodie
+Dec. 12, 2025 11:24:38 A.M. services.GymMerchService addMerch
+INFO: Gym merchandise added successfully: Water Bottle
+Dec. 12, 2025 11:24:38 A.M. services.GymMerchService deleteMerch
+WARNING: Gym merchandise deletion failed for ID: 0
