@@ -3,7 +3,7 @@ package models;
 /**
  * Member class representing a member in the system.
  * 
- * @author: Abiodun Magret Oyedele
+ * Author: Abiodun Magret Oyedele
  * Date: 2025-12-06
  */
 public class Member extends User {

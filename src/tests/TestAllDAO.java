@@ -8,9 +8,23 @@ import models.*;
 /**
  * TestAllDAO class to test all DAO functionalities.
  * Author: Brandon Maloney
+ * Date: 2025-12-08
  */
 public class TestAllDAO {
 
+    /**
+     * Default constructor for TestAllDAO.
+     */
+    public TestAllDAO() {
+        // No initialization required for now
+    }
+
+    /**
+     * Main method to run all DAO tests.
+     * 
+     * @param args Command line arguments
+     * 
+     */
     public static void main(String[] args) {
         try { testTrainerDAO(); } catch (SQLException e) { System.err.println("TrainerDAO test failed: " + e.getMessage()); }
         try { testAdminDAO(); } catch (SQLException e) { System.err.println("AdminDAO test failed: " + e.getMessage()); }
@@ -28,18 +42,28 @@ public class TestAllDAO {
         System.out.println("All DAO tests completed.");
     }
 
-    // ------------------- Helper -------------------
+    /**
+     * Generate a unique email for testing.
+     * @param prefix The prefix for the email.
+     * @return A unique email string.
+     */
     private static String uniqueEmail(String prefix) {
         return prefix + System.currentTimeMillis() + "@test.com";
     }
 
+    /**
+     * Generate a unique phone number for testing.
+     * @return A unique phone number string.
+     */
     private static String uniquePhone() {
         return String.valueOf(1000000000 + System.currentTimeMillis() % 9000000000L);
     }
 
-    // ===========================
-    // DAO Test Methods
-    // ===========================
+    /**
+     * Test TrainerDAO functionalities.
+     * @throws SQLException if a database access error occurs.
+     * 
+     */
     private static void testTrainerDAO() throws SQLException {
         System.out.println("\nTesting TrainerDAO...");
         TrainerDAO dao = new TrainerDAO();
@@ -63,6 +87,10 @@ public class TestAllDAO {
         }
     }
 
+    /**
+     * Test AdminDAO functionalities.
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testAdminDAO() throws SQLException {
         System.out.println("\nTesting AdminDAO...");
         AdminDAO dao = new AdminDAO();
@@ -86,6 +114,10 @@ public class TestAllDAO {
         }
     }
 
+    /**
+     * Test UserDAO functionalities.
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testUserDAO() throws SQLException {
         System.out.println("\nTesting UserDAO...");
         UserDAO dao = new UserDAO();
@@ -109,6 +141,10 @@ public class TestAllDAO {
         }
     }
 
+    /**
+     * Test MemberDAO functionalities.
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testMemberDAO() throws SQLException {
         System.out.println("\nTesting MemberDAO...");
         MemberDAO dao = new MemberDAO();
@@ -132,6 +168,10 @@ public class TestAllDAO {
         }
     }
 
+    /**
+     * Test GymMerchDAO functionalities.
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testGymMerchDAO() throws SQLException {
         System.out.println("\nTesting GymMerchDAO...");
         GymMerchDAO dao = new GymMerchDAO();
@@ -151,6 +191,10 @@ public class TestAllDAO {
         System.out.println("GymMerch deleted: " + deleted);
     }
 
+    /**
+     * Test MembershipDAO functionalities.
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testMembershipDAO() throws SQLException {
         System.out.println("\nTesting MembershipDAO...");
         MembershipDAO dao = new MembershipDAO();
@@ -172,6 +216,10 @@ public class TestAllDAO {
         memberDAO.deleteMember(memberId);
     }
 
+    /**
+     * Test WorkoutClassDAO functionalities.
+     * @throws SQLException if a database access error occurs.
+     */
     private static void testWorkoutClassDAO() throws SQLException {
         System.out.println("\nTesting WorkoutClassDAO...");
 
@@ -205,9 +253,9 @@ public class TestAllDAO {
         System.out.println("Trainer deleted after test: " + trainerDeleted);
     }
 
-    // ===========================
-    // Cleanup Test Users
-    // ===========================
+    /**
+     * Cleanup test users created during testing.
+     */
     private static void cleanupTestUsers() {
         try {
             UserDAO dao = new UserDAO();

@@ -3,7 +3,7 @@ package models;
 /**
  * Admin class representing an administrator in the system.
  * 
- * @author: Abiodun Magret Oyedele
+ * Author: Abiodun Magret Oyedele
  * Date: 2025-12-06
  */
 public class Admin extends User {

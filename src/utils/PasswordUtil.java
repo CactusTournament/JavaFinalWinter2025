@@ -11,6 +11,13 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class PasswordUtil {
 
+    /**
+     * Default private constructor to prevent instantiation.
+     */
+    private PasswordUtil() {
+        // Private constructor to prevent instantiation
+    }
+
     // Higher = safer but slower; 10–12 is recommended for assignments
     private static final int WORKLOAD = 12;
 

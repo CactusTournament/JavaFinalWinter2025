@@ -1,8 +1,3 @@
-// NEW RECOMPILING
-// javac -d classes -cp "lib/*" $(find . -name "*.java") --------COMPILE TO CLASSES FOLDER
-// java -cp "classes:lib/*" JavaFinalWinter2025.tests.TestAllDAO -------RUN DAO TEST
-// java -cp "classes:lib/*" JavaFinalWinter2025.tests.TestAllServices -------RUN SERVICE TEST
-
 package utils;
 
 import java.sql.*;
@@ -11,7 +6,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 /**
  * DatabaseConnection class to manage database connections.
  * 
- * @author: Abiodun Magret Oyedele
+ * Author: Abiodun Magret Oyedele
  * Date: 2025-12-06
  */
 public class DatabaseConnection {
@@ -20,6 +15,15 @@ public class DatabaseConnection {
     private static final String url = dotenv.get("DB_URL");
     private static final String user = dotenv.get("DB_USER");
     private static final String password = dotenv.get("DB_PASSWORD");
+
+    /**
+     * Default constructor for DatabaseConnection.
+     * Initializes the database connection parameters.
+     * 
+     */
+    public DatabaseConnection() {
+        // Constructor can be used for initialization if needed
+    }
 
     /**
      * Get a connection to the database.
@@ -41,7 +45,6 @@ public class DatabaseConnection {
      * Main method to test the database connection.
      * @param args Command line arguments
      */
-
     public static void main(String[] args) {
         Connection conn = getcon();
         if (conn != null) {

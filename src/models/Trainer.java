@@ -3,7 +3,7 @@ package models;
 /**
  * Trainer class representing a trainer in the system.
  * 
- * @author: Abiodun Magret Oyedele
+ * Author: Abiodun Magret Oyedele
  * Date: 2025-12-06
  */
 public class Trainer extends User {

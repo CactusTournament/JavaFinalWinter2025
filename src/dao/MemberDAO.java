@@ -16,7 +16,20 @@ import utils.DatabaseConnection;
  */
 public class MemberDAO {
 
-    /** Creates a new member in the database. */
+    /**
+     * Default constructor for MemberDAO.
+     * Initializes an instance of MemberDAO for performing CRUD operations.
+     */
+    public MemberDAO() {
+        // No initialization required for now
+    }
+
+    /**
+     * Creates a new member in the database.
+     * 
+     * @param member The Member object to be created.
+     * @return true if the member was created successfully, false otherwise.
+     */
     public boolean createMember(Member member) {
         String query = """
             INSERT INTO Users (userName, userAddress, userPhoneNumber, userRole, passwordHash, email)
@@ -49,7 +62,12 @@ public class MemberDAO {
         return false;
     }
 
-    /** Retrieves a member by ID. */
+    /**
+     * Retrieves a member by their ID.
+     * 
+     * @param userId The ID of the member to retrieve.
+     * @return The Member object if found, null otherwise.
+     */
     public Member getMemberById(int userId) {
         String query = "SELECT * FROM Users WHERE userId = ? AND userRole = 'Member'";
         try (Connection conn = DatabaseConnection.getcon();
@@ -73,7 +91,11 @@ public class MemberDAO {
         return null;
     }
 
-    /** Retrieves all members. */
+    /**
+     * Retrieves all members from the database.
+     * 
+     * @return A list of Member objects.
+     */
     public List<Member> getAllMembers() {
         List<Member> members = new ArrayList<>();
         String query = "SELECT * FROM Users WHERE userRole = 'Member'";
@@ -97,7 +119,12 @@ public class MemberDAO {
         return members;
     }
 
-    /** Updates an existing member. */
+    /**
+     * Updates an existing member's information.
+     * 
+     * @param member The Member object with updated information.
+     * @return true if the member was updated successfully, false otherwise.
+     */
     public boolean updateMember(Member member) {
         String query = """
             UPDATE Users
@@ -122,7 +149,12 @@ public class MemberDAO {
         return false;
     }
 
-    /** Deletes a member by ID. */
+    /**
+     * Deletes a member from the database.
+     * 
+     * @param userId     The ID of the member to delete.
+     * @return true if the member was deleted successfully, false otherwise.
+     */
     public boolean deleteMember(int userId) {
         String query = "DELETE FROM Users WHERE userId = ? AND userRole = 'Member'";
         try (Connection conn = DatabaseConnection.getcon();

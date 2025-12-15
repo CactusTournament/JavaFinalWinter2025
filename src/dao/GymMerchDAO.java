@@ -17,6 +17,14 @@ import java.util.List;
 public class GymMerchDAO {
 
     /**
+     * Default constructor for GymMerchDAO.
+     * Initializes an instance of GymMerchDAO for performing CRUD operations.
+     */
+    public GymMerchDAO() {
+        // No initialization required for now
+    }
+
+    /**
      * Adds a new gym merchandise item to the database.
      *
      * @param gymMerch The GymMerch object to add.

@@ -20,6 +20,10 @@ public class WorkoutClassService {
     private WorkoutClassDAO workoutClassDAO;
     private static final Logger logger = LoggerUtil.getLogger();
 
+    /**
+     * Constructor to initialize WorkoutClassService with a WorkoutClassDAO instance.
+     * @param workoutClassDAO The WorkoutClassDAO instance to use.
+     */
     public WorkoutClassService(WorkoutClassDAO workoutClassDAO) {
         this.workoutClassDAO = workoutClassDAO;
     }

@@ -23,7 +23,11 @@ public class UserService {
     /** Logger for logging events */
     private static final Logger logger = LoggerUtil.getLogger();
 
-    /** Constructor to initialize UserService with a UserDAO instance */
+    /**
+     * Constructor to initialize UserService with a UserDAO instance.
+     * 
+     * @param userDAO The UserDAO instance to use.
+     */
     public UserService(UserDAO userDAO) {
         this.userDAO = userDAO;
     }

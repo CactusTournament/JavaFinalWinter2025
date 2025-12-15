@@ -10,7 +10,7 @@ package models;
  * workoutClassDescription: Description of the workout class
  * trainerID: Identifier for the trainer associated with the workout class
  * 
- * @author: Abiodun Magret Oyedele
+ * Author: Abiodun Magret Oyedele
  * Date: 2025-12-06
  */
 public class WorkoutClass {

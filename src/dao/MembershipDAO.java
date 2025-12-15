@@ -16,7 +16,19 @@ import utils.DatabaseConnection;
  */
 public class MembershipDAO {
 
-    /** Creates a new membership in the database and sets the generated ID. */
+    /**
+     * Default constructor for MembershipDAO.
+     * Initializes an instance of MembershipDAO for performing CRUD operations.
+     */
+    public MembershipDAO() {
+        // No initialization required for now
+    }
+
+    /**
+     * Creates a new membership in the database.
+     * @param membership The Membership object to be created.
+     * @return true if the membership was created successfully, false otherwise.
+     */
     public boolean createMembership(Membership membership) {
         String query = """
             INSERT INTO Memberships (membershipType, membershipDescription, membershipCost, memberID)
@@ -47,7 +59,11 @@ public class MembershipDAO {
         return false;
     }
 
-    /** Retrieves a membership by ID. */
+    /**
+     * Retrieves a membership by its ID.
+     * @param membershipID The ID of the membership to retrieve.
+     * @return The Membership object if found, null otherwise.
+     */
     public Membership getMembershipById(int membershipID) {
         String query = "SELECT * FROM Memberships WHERE membershipID = ?";
         try (Connection conn = DatabaseConnection.getcon();
@@ -70,7 +86,10 @@ public class MembershipDAO {
         return null;
     }
 
-    /** Retrieves all memberships. */
+    /**
+     * Retrieves all memberships from the database.
+     * @return A list of all Membership objects.
+     */
     public List<Membership> getAllMemberships() {
         List<Membership> list = new ArrayList<>();
         String query = "SELECT * FROM Memberships";
@@ -93,7 +112,11 @@ public class MembershipDAO {
         return list;
     }
 
-    /** Updates an existing membership. */
+    /**
+     * Updates an existing membership in the database.
+     * @param membership The Membership object with updated information.
+     * @return true if the membership was updated successfully, false otherwise.
+     */
     public boolean updateMembership(Membership membership) {
         String query = """
             UPDATE Memberships
@@ -118,7 +141,11 @@ public class MembershipDAO {
         return false;
     }
 
-    /** Deletes a membership by ID. */
+    /**
+     * Deletes a membership from the database.
+     * @param membershipID The ID of the membership to delete.
+     * @return true if the membership was deleted successfully, false otherwise.
+     */
     public boolean deleteMembership(int membershipID) {
         String query = "DELETE FROM Memberships WHERE membershipID = ?";
         try (Connection conn = DatabaseConnection.getcon();
