@@ -69,16 +69,19 @@ public class Main {
      * Handles CRUD operations for Users.
      */
     private static void handleUserCRUD() {
-        System.out.println("\nUser Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
-        String option = scanner.nextLine();
+        boolean back = false;
+        while (!back) {
+            System.out.println("\nUser Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            String option = scanner.nextLine();
 
-        switch (option) {
-            case "1" -> createUser();
-            case "2" -> listAllUsers();
-            case "3" -> updateUser();
-            case "4" -> deleteUser();
-            case "5" -> { /* back to main menu */ }
-            default -> System.out.println("Invalid choice.");
+            switch (option) {
+                case "1" -> createUser();
+                case "2" -> listAllUsers();
+                case "3" -> updateUser();
+                case "4" -> deleteUser();
+                case "5" -> back = true;
+                default -> System.out.println("Invalid choice.");
+            }
         }
     }
 
@@ -205,16 +208,19 @@ public class Main {
      * TRAINER CRUD
      */
     private static void handleTrainerCRUD() {
-        System.out.println("\nTrainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
-        String option = scanner.nextLine();
+        boolean back = false;
+        while (!back) {
+            System.out.println("\nTrainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            String option = scanner.nextLine();
 
-        switch (option) {
-            case "1" -> createTrainer();
-            case "2" -> listAllTrainers();
-            case "3" -> updateTrainer();
-            case "4" -> deleteTrainer();
-            case "5" -> { /* back */ }
-            default -> System.out.println("Invalid choice.");
+            switch (option) {
+                case "1" -> createTrainer();
+                case "2" -> listAllTrainers();
+                case "3" -> updateTrainer();
+                case "4" -> deleteTrainer();
+                case "5" -> back = true;
+                default -> System.out.println("Invalid choice.");
+            }
         }
     }
 
@@ -306,16 +312,19 @@ public class Main {
      * MEMBER CRUD
      */
     private static void handleMemberCRUD() {
-        System.out.println("\nMember Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
-        String option = scanner.nextLine();
+        boolean back = false;
+        while (!back) {
+            System.out.println("\nMember Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            String option = scanner.nextLine();
 
-        switch (option) {
-            case "1" -> createMember();
-            case "2" -> listAllMembers();
-            case "3" -> updateMember();
-            case "4" -> deleteMember();
-            case "5" -> { /* back */ }
-            default -> System.out.println("Invalid choice.");
+            switch (option) {
+                case "1" -> createMember();
+                case "2" -> listAllMembers();
+                case "3" -> updateMember();
+                case "4" -> deleteMember();
+                case "5" -> back = true;
+                default -> System.out.println("Invalid choice.");
+            }
         }
     }
 
@@ -407,16 +416,19 @@ public class Main {
      * ADMIN CRUD
      */
     private static void handleAdminCRUD() {
-        System.out.println("\nAdmin Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
-        String option = scanner.nextLine();
+        boolean back = false;
+        while (!back) {
+            System.out.println("\nAdmin Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            String option = scanner.nextLine();
 
-        switch (option) {
-            case "1" -> createAdmin();
-            case "2" -> listAllAdmins();
-            case "3" -> updateAdmin();
-            case "4" -> deleteAdmin();
-            case "5" -> { /* back */ }
-            default -> System.out.println("Invalid choice.");
+            switch (option) {
+                case "1" -> createAdmin();
+                case "2" -> listAllAdmins();
+                case "3" -> updateAdmin();
+                case "4" -> deleteAdmin();
+                case "5" -> back = true;
+                default -> System.out.println("Invalid choice.");
+            }
         }
     }
 
@@ -508,16 +520,19 @@ public class Main {
      * WORKOUT CLASS CRUD
      */
     private static void handleWorkoutClassCRUD() {
-        System.out.println("\nWorkoutClass Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
-        String option = scanner.nextLine();
+        boolean back = false;
+        while (!back) {
+            System.out.println("\nWorkoutClass Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            String option = scanner.nextLine();
 
-        switch (option) {
-            case "1" -> createWorkoutClass();
-            case "2" -> listAllWorkoutClasses();
-            case "3" -> updateWorkoutClass();
-            case "4" -> deleteWorkoutClass();
-            case "5" -> { /* back */ }
-            default -> System.out.println("Invalid choice.");
+            switch (option) {
+                case "1" -> createWorkoutClass();
+                case "2" -> listAllWorkoutClasses();
+                case "3" -> updateWorkoutClass();
+                case "4" -> deleteWorkoutClass();
+                case "5" -> back = true;
+                default -> System.out.println("Invalid choice.");
+            }
         }
     }
 
@@ -597,16 +612,19 @@ public class Main {
      * GYM MERCH CRUD
      */
     private static void handleGymMerchCRUD() {
-        System.out.println("\nGymMerch Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
-        String option = scanner.nextLine();
+        boolean back = false;
+        while (!back) {
+            System.out.println("\nGymMerch Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            String option = scanner.nextLine();
 
-        switch (option) {
-            case "1" -> createGymMerch();
-            case "2" -> listAllGymMerch();
-            case "3" -> updateGymMerch();
-            case "4" -> deleteGymMerch();
-            case "5" -> { /* back */ }
-            default -> System.out.println("Invalid choice.");
+            switch (option) {
+                case "1" -> createGymMerch();
+                case "2" -> listAllGymMerch();
+                case "3" -> updateGymMerch();
+                case "4" -> deleteGymMerch();
+                case "5" -> back = true;
+                default -> System.out.println("Invalid choice.");
+            }
         }
     }
 
@@ -686,16 +704,19 @@ public class Main {
      * MEMBERSHIP CRUD
      */
     private static void handleMembershipCRUD() {
-        System.out.println("\nMembership Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
-        String option = scanner.nextLine();
+        boolean back = false;
+        while (!back) {
+            System.out.println("\nMembership Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            String option = scanner.nextLine();
 
-        switch (option) {
-            case "1" -> createMembership();
-            case "2" -> listAllMemberships();
-            case "3" -> updateMembership();
-            case "4" -> deleteMembership();
-            case "5" -> { /* back */ }
-            default -> System.out.println("Invalid choice.");
+            switch (option) {
+                case "1" -> createMembership();
+                case "2" -> listAllMemberships();
+                case "3" -> updateMembership();
+                case "4" -> deleteMembership();
+                case "5" -> back = true;
+                default -> System.out.println("Invalid choice.");
+            }
         }
     }
 
