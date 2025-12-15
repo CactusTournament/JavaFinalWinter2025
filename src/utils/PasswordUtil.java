@@ -1,4 +1,4 @@
-package JavaFinalWinter2025.utils;
+package utils;
 
 import org.mindrot.jbcrypt.BCrypt;
 

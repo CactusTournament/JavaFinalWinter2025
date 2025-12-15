@@ -1,4 +1,4 @@
-package JavaFinalWinter2025.src;
+package models;
 
 /**
  * User class representing a user in the system.

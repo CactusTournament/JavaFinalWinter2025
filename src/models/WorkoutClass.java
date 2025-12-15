@@ -1,4 +1,4 @@
-package JavaFinalWinter2025.src;
+package models;
 
 /**
  * WorkoutClass class representing workout class details in the system.

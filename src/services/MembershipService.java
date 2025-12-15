@@ -1,9 +1,9 @@
-package JavaFinalWinter2025.services;
+package services;
 
-import JavaFinalWinter2025.dao.MembershipDAO;
-import JavaFinalWinter2025.src.Membership;
+import dao.MembershipDAO;
+import models.Membership;
 import java.util.List;
-import JavaFinalWinter2025.utils.LoggerUtil;
+import utils.LoggerUtil;
 import java.util.logging.Logger;
 
 /**
@@ -124,4 +124,3 @@ public class MembershipService {
         }
     }
 }
-

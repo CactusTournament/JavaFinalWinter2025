@@ -1,4 +1,4 @@
-package JavaFinalWinter2025.src;
+package models;
 
 /**
  * GymMerch class representing gym merchandise details in the system.
