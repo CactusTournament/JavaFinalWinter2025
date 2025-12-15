@@ -1124,32 +1124,89 @@ After login, the system displays menu options based on your role:
 - Logs: System events are recorded in gym_log.txt for auditing and troubleshooting.
 
 ### 4.6 Example Session Flow
-CHANGE THIS WHEN WORKING
 ```
-Welcome to Gym Management System
-1. Register
-2. Login
-3. Exit
-Enter choice: 2
+Welcome to the Gym Management System!
 
-Enter username: trainer1
-Enter password: *****
+Select an option:
+1. User CRUD
+2. Trainer CRUD
+3. Member CRUD
+4. Admin CRUD
+5. WorkoutClass CRUD
+6. GymMerch CRUD
+7. Membership CRUD
+8. Exit
+2
 
---- Trainer Menu ---
-1. View Workout Classes
-2. Create Workout Class
-3. Update Workout Class
-4. Purchase Membership
-5. View Merchandise
-6. Logout
+Trainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back
+2
+org.postgresql.jdbc.PgConnection@2f8f5f62
+User{userId=47, userName='Trainer FK', userAddress='pass', userPhoneNumber='trainer1765824947007@test.com', userRole='Trainer', email='8889990000'}
+User{userId=64, userName='Main', userAddress='123 Main St.', userPhoneNumber='111111111', userRole='Trainer', email='main@file.com'}
 
-Enter choice: 2
-Enter class type: Yoga
-Enter description: Morning Yoga for beginners
-Class created successfully!
+Trainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back
+1
+Enter trainer name: Trainer Train
+Enter email: train@train.com
+Enter phone: 22222222
+Enter address: 234 Trainer St.
+Enter password: train
+org.postgresql.jdbc.PgConnection@70beb599
+org.postgresql.jdbc.PgConnection@5e25a92e
+Trainer created successfully.
 
-Enter choice: 6
-Logging out...
+Trainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back
+2
+org.postgresql.jdbc.PgConnection@b59d31
+User{userId=47, userName='Trainer FK', userAddress='pass', userPhoneNumber='trainer1765824947007@test.com', userRole='Trainer', email='8889990000'}
+User{userId=64, userName='Main', userAddress='123 Main St.', userPhoneNumber='111111111', userRole='Trainer', email='main@file.com'}
+User{userId=65, userName='Trainer Train', userAddress='234 Trainer St.', userPhoneNumber='22222222', userRole='Trainer', email='train@train.com'}
+
+Trainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back
+3
+Enter trainer ID to update: 65
+org.postgresql.jdbc.PgConnection@62fdb4a6
+New name (blank to keep current): Trainer Trains
+New email (blank to keep current): 
+New phone (blank to keep current): 
+New address (blank to keep current): 
+New password (blank to keep current): 
+org.postgresql.jdbc.PgConnection@3e77a1ed
+Trainer updated successfully.
+
+Trainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back
+2
+org.postgresql.jdbc.PgConnection@3ffcd140
+User{userId=47, userName='Trainer FK', userAddress='pass', userPhoneNumber='trainer1765824947007@test.com', userRole='Trainer', email='8889990000'}
+User{userId=64, userName='Main', userAddress='123 Main St.', userPhoneNumber='111111111', userRole='Trainer', email='main@file.com'}
+User{userId=65, userName='Trainer Trains', userAddress='234 Trainer St.', userPhoneNumber='22222222', userRole='Trainer', email='train@train.com'}
+
+Trainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back
+4
+Enter trainer ID to delete: 65
+org.postgresql.jdbc.PgConnection@23bb8443
+Trainer deleted successfully.
+
+Trainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back
+2
+org.postgresql.jdbc.PgConnection@1176dcec
+User{userId=47, userName='Trainer FK', userAddress='pass', userPhoneNumber='trainer1765824947007@test.com', userRole='Trainer', email='8889990000'}
+User{userId=64, userName='Main', userAddress='123 Main St.', userPhoneNumber='111111111', userRole='Trainer', email='main@file.com'}
+
+Trainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back
+5
+
+Select an option:
+1. User CRUD
+2. Trainer CRUD
+3. Member CRUD
+4. Admin CRUD
+5. WorkoutClass CRUD
+6. GymMerch CRUD
+7. Membership CRUD
+8. Exit
+8
+Exiting system. Goodbye!
 ```
 
 
