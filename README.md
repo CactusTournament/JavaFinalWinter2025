@@ -822,7 +822,7 @@ The diagram focuses on:
 - Associations between entities
 - Separation of concerns (Models, DAOs, Services, Utils)
 
-#### 3.1 High-Level System Architecture
+### 3.1 High-Level System Architecture
 ```
 +------------------+
 |      Main        |
@@ -844,7 +844,7 @@ The diagram focuses on:
 +------------------+
 ```
 
-#### 3.3 Core Model Classes
+### 3.3 Core Model Classes
 ##### User
 ```
 +----------------------------------+
@@ -926,7 +926,7 @@ The diagram focuses on:
 +----------------------------------+
 ```
 
-#### 3.4 DAO Layer UML
+### 3.4 DAO Layer UML
 Each DAO class manages database operations for its corresponding model.
 
 ```
@@ -971,7 +971,7 @@ Each DAO class manages database operations for its corresponding model.
 +--------------------+      +------------------+
 ```
 
-#### 3.5 Service Layer UML
+### 3.5 Service Layer UML
 Service classes sit between the UI and DAOs, enforcing business rules.
 ```
 +------------------------+
@@ -1024,7 +1024,7 @@ Service classes sit between the UI and DAOs, enforcing business rules.
 +------------------------+
 ```
 
-#### 3.6 Utility Classes UML
+### 3.6 Utility Classes UML
 ```
 +------------------------+
 | DatabaseConnection     |
@@ -1046,7 +1046,7 @@ Service classes sit between the UI and DAOs, enforcing business rules.
 +------------------------+
 ```
 
-#### 3.7 Summary of Class Relationships
+### 3.7 Summary of Class Relationships
 ```
 User
   ^
@@ -1060,3 +1060,94 @@ Service Layer ---> DAO Layer ---> Database
 Main ------------> Service / DAO
 ```
 
+## 4. Instructions on How to Start and Use the System
+This section provides step-by-step instructions for compiling, running, and interacting with the Gym Management System.
+
+### 4.1 Prerequisites
+Before starting the system, ensure the following are installed:
+- Java JDK 11 or later
+- PostgreSQL (with database and tables created)
+- Terminal / Command Line Interface
+- BCrypt library (included in lib/ folder)
+Environment variables for database credentials set in .env file:
+    - DB_URL – PostgreSQL connection URL
+    - DB_USER – Database username
+    - DB_PASSWORD – Database password
+
+### 4.2 Setup Instructions
+1. Clone or download the project folder to your local machine.
+2. Open the terminal and navigate to the project root directory.
+3. Compile all Java files:
+```
+javac -d classes -cp "lib/*" $(find . -name "*.java")
+```
+4. Verify database connection using the DatabaseConnection utility:
+```
+java -cp "classes:lib/*" JavaFinalWinter2025.utils.DatabaseConnection
+```
+- This ensures that the system can connect to your PostgreSQL database.
+
+### 4.3 Running the System
+1. Launch the main application:
+```
+java -cp "classes:lib/*" JavaFinalWinter2025.src.Main
+```
+
+2. Main Menu Display:
+The console will display a menu with options to:
+- Register a new user
+- Login as existing user
+- Exit the application
+
+3. Login / Register:
+- Register: Create a new user account (Admin, Trainer, Member)
+- Login: Enter your username and password
+
+4. Role-Based Menu:
+After login, the system displays menu options based on your role:
+- Admin: Manage users, memberships, workout classes, merchandise
+- Trainer: Manage workout classes, view memberships and merchandise
+- Member: Browse classes, purchase memberships, view merchandise
+
+5. Select Actions:
+- Type the number corresponding to your desired action
+- Follow prompts to complete actions (e.g., adding a membership, updating a class)
+
+6. Exiting the System:
+- Choose the Exit option from any menu to safely close the application
+- All data is stored automatically in the database
+
+### 4.4 Tips for Using the System
+- Navigation: Always follow numbered menu prompts; typing invalid options will display an error message.
+- Security: Passwords are encrypted using BCrypt—do not attempt to edit database password fields manually.
+- Data Consistency: Always complete actions fully; partially entered information may cause errors.
+- Logs: System events are recorded in gym_log.txt for auditing and troubleshooting.
+
+### 4.6 Example Session Flow
+CHANGE THIS WHEN WORKING
+```
+Welcome to Gym Management System
+1. Register
+2. Login
+3. Exit
+Enter choice: 2
+
+Enter username: trainer1
+Enter password: *****
+
+--- Trainer Menu ---
+1. View Workout Classes
+2. Create Workout Class
+3. Update Workout Class
+4. Purchase Membership
+5. View Merchandise
+6. Logout
+
+Enter choice: 2
+Enter class type: Yoga
+Enter description: Morning Yoga for beginners
+Class created successfully!
+
+Enter choice: 6
+Logging out...
+```
