@@ -1,43 +1,40 @@
 package services;
 
 import dao.UserDAO;
-import models.User;
 import java.util.List;
-import utils.PasswordUtil;
-import utils.LoggerUtil;
 import java.util.logging.Logger;
+import models.User;
+import utils.LoggerUtil;
+import utils.PasswordUtil;
 
 /**
  * UserService
  * Service class for handling user-related operations such as registration and login.
  * Utilizes UserDAO for database interactions and PasswordUtil for password hashing.
  * 
- * @author: Abiodun Magret Oyedele
- * Date: 2025-12-09
+ * Author: Abiodun Magret Oyedele
+ * Updated: 2025-12-15
  */
 public class UserService {
-    /**
-     * UserDAO instance for database operations.
-     * Logger for logging events.
-     */
+
+    /** UserDAO instance for database operations */
     private UserDAO userDAO;
+
+    /** Logger for logging events */
     private static final Logger logger = LoggerUtil.getLogger();
 
-    /**
-     * Constructor to initialize UserService with a UserDAO instance.
-     * 
-     * @param userDAO The UserDAO instance to use.
-     */
+    /** Constructor to initialize UserService with a UserDAO instance */
     public UserService(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
     /**
      * Register a new user by hashing their password and storing their details.
+     * 
      * @param user The User object containing user details.
      */
     public void registerUser(User user) {
-        try{
+        try {
             user.setPasswordHash(PasswordUtil.hashPassword(user.getPasswordHash()));
             userDAO.createUser(user);
 
@@ -49,6 +46,7 @@ public class UserService {
 
     /**
      * Login a user by verifying their credentials.
+     * 
      * @param username username
      * @param password password
      * @return User object if login is successful; null otherwise.
@@ -58,10 +56,10 @@ public class UserService {
             User user = userDAO.getUserByUsername(username);
             if (user != null && PasswordUtil.verifyPassword(password, user.getPasswordHash())) {
                 logger.info("Login successful for user: " + user.getUserName());
-                return user; // login successful
+                return user;
             }
             logger.info("Login failed for username: " + username);
-            return null; // login failed
+            return null;
         } catch (Exception e) {
             logger.severe("Logging failed during login attempt: " + e.getMessage());
             return null;
@@ -70,6 +68,7 @@ public class UserService {
 
     /**
      * Retrieve all users from the database.
+     * 
      * @return List of User objects.
      */
     public List<User> getAllUsers() {
@@ -86,5 +85,23 @@ public class UserService {
             logger.severe("Logging failed during retrieving all users: " + e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * Retrieve a Trainer by user ID.
+     * A Trainer is a User with userRole = 'Trainer'.
+     * 
+     * @param userId trainer user ID
+     * @return User if found and role is Trainer
+     * @throws RuntimeException if not found or not a trainer
+     */
+    public User getTrainerById(int userId) {
+        User user = userDAO.getUserById(userId);
+
+        if (user != null && "Trainer".equals(user.getUserRole())) {
+            return user;
+        }
+
+        throw new RuntimeException("Trainer not found");
     }
 }

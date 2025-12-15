@@ -18,14 +18,24 @@ public class TrainerDAO {
 
     /**
      * Creates a new Trainer (User with role 'Trainer').
-     * Password is hashed using bcrypt before insertion.
+     * If a trainer with the same email already exists, reuse it.
      */
     public boolean createTrainer(Trainer trainer) {
-        String sql = "INSERT INTO Users (userName, userAddress, userPhoneNumber, userRole, passwordHash, email) " +
-                     "VALUES (?, ?, ?, 'Trainer', ?, ?)";
+
+        // ✅ Prevent duplicate email crash
+        Trainer existing = getTrainerByEmail(trainer.getEmail());
+        if (existing != null) {
+            trainer.setUserId(existing.getUserId());
+            return true;
+        }
+
+        String sql = """
+            INSERT INTO Users (userName, userAddress, userPhoneNumber, userRole, passwordHash, email)
+            VALUES (?, ?, ?, 'Trainer', ?, ?)
+        """;
 
         try (Connection conn = DatabaseConnection.getcon();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, trainer.getUserName());
             stmt.setString(2, trainer.getUserAddress());
@@ -33,7 +43,15 @@ public class TrainerDAO {
             stmt.setString(4, trainer.getPasswordHash());
             stmt.setString(5, trainer.getEmail());
 
-            return stmt.executeUpdate() > 0;
+            int rows = stmt.executeUpdate();
+            if (rows == 0) return false;
+
+            try (ResultSet keys = stmt.getGeneratedKeys()) {
+                if (keys.next()) {
+                    trainer.setUserId(keys.getInt(1));
+                }
+            }
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,11 +126,13 @@ public class TrainerDAO {
 
     /**
      * Updates a Trainer record.
-     * Password is re-hashed before update.
      */
     public boolean updateTrainer(Trainer trainer) {
-        String sql = "UPDATE Users SET userName = ?, userAddress = ?, userPhoneNumber = ?, passwordHash = ?, email = ? " +
-                     "WHERE userId = ? AND userRole = 'Trainer'";
+        String sql = """
+            UPDATE Users
+            SET userName = ?, userAddress = ?, userPhoneNumber = ?, passwordHash = ?, email = ?
+            WHERE userId = ? AND userRole = 'Trainer'
+        """;
 
         try (Connection conn = DatabaseConnection.getcon();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

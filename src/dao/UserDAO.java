@@ -19,13 +19,16 @@ public class UserDAO {
     /**
      * Creates a new User in the database.
      * Expects the password to be hashed before calling this method.
+     * Sets the generated userId on the User object.
      */
     public boolean createUser(User user) {
-        String sql = "INSERT INTO Users (userName, userAddress, userPhoneNumber, userRole, passwordHash, email) " +
-                     "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = """
+            INSERT INTO Users (userName, userAddress, userPhoneNumber, userRole, passwordHash, email)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """;
 
         try (Connection conn = DatabaseConnection.getcon();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, user.getUserName());
             stmt.setString(2, user.getUserAddress());
@@ -34,7 +37,15 @@ public class UserDAO {
             stmt.setString(5, user.getPasswordHash());
             stmt.setString(6, user.getEmail());
 
-            return stmt.executeUpdate() > 0;
+            int rows = stmt.executeUpdate();
+            if (rows == 0) return false;
+
+            try (ResultSet keys = stmt.getGeneratedKeys()) {
+                if (keys.next()) {
+                    user.setUserId(keys.getInt(1));
+                }
+            }
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -134,8 +145,11 @@ public class UserDAO {
      * Expects the password to be hashed before calling this method.
      */
     public boolean updateUser(User user) {
-        String sql = "UPDATE Users SET userName = ?, userAddress = ?, userPhoneNumber = ?, userRole = ?, passwordHash = ?, email = ? " +
-                     "WHERE userId = ?";
+        String sql = """
+            UPDATE Users
+            SET userName = ?, userAddress = ?, userPhoneNumber = ?, userRole = ?, passwordHash = ?, email = ?
+            WHERE userId = ?
+        """;
 
         try (Connection conn = DatabaseConnection.getcon();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

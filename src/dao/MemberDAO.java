@@ -18,9 +18,13 @@ public class MemberDAO {
 
     /** Creates a new member in the database. */
     public boolean createMember(Member member) {
-        String query = "INSERT INTO Users (userName, userAddress, userPhoneNumber, userRole, passwordHash, email) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = """
+            INSERT INTO Users (userName, userAddress, userPhoneNumber, userRole, passwordHash, email)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """;
+
         try (Connection conn = DatabaseConnection.getcon();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+             PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, member.getUserName());
             ps.setString(2, member.getUserAddress());
@@ -29,7 +33,16 @@ public class MemberDAO {
             ps.setString(5, member.getPasswordHash());
             ps.setString(6, member.getEmail());
 
-            return ps.executeUpdate() > 0; // true if row inserted
+            int rows = ps.executeUpdate();
+            if (rows == 0) return false;
+
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    member.setUserId(keys.getInt(1));
+                }
+            }
+            return true;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,7 +99,12 @@ public class MemberDAO {
 
     /** Updates an existing member. */
     public boolean updateMember(Member member) {
-        String query = "UPDATE Users SET userName = ?, userAddress = ?, userPhoneNumber = ?, passwordHash = ?, email = ? WHERE userId = ?";
+        String query = """
+            UPDATE Users
+            SET userName = ?, userAddress = ?, userPhoneNumber = ?, passwordHash = ?, email = ?
+            WHERE userId = ?
+        """;
+
         try (Connection conn = DatabaseConnection.getcon();
              PreparedStatement ps = conn.prepareStatement(query)) {
 

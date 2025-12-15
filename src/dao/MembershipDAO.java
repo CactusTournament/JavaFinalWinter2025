@@ -16,18 +16,31 @@ import utils.DatabaseConnection;
  */
 public class MembershipDAO {
 
-    /** Creates a new membership in the database. */
+    /** Creates a new membership in the database and sets the generated ID. */
     public boolean createMembership(Membership membership) {
-        String query = "INSERT INTO Memberships (membershipType, membershipDescription, membershipCost, memberID) VALUES (?, ?, ?, ?)";
+        String query = """
+            INSERT INTO Memberships (membershipType, membershipDescription, membershipCost, memberID)
+            VALUES (?, ?, ?, ?)
+        """;
+
         try (Connection conn = DatabaseConnection.getcon();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+             PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, membership.getMembershipType());
             ps.setString(2, membership.getMembershipDescription());
             ps.setDouble(3, membership.getMembershipCost());
             ps.setInt(4, membership.getMemberID());
 
-            return ps.executeUpdate() > 0;
+            int rows = ps.executeUpdate();
+            if (rows == 0) return false;
+
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    membership.setMembershipID(keys.getInt(1));
+                }
+            }
+            return true;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,7 +95,12 @@ public class MembershipDAO {
 
     /** Updates an existing membership. */
     public boolean updateMembership(Membership membership) {
-        String query = "UPDATE Memberships SET membershipType = ?, membershipDescription = ?, membershipCost = ?, memberID = ? WHERE membershipID = ?";
+        String query = """
+            UPDATE Memberships
+            SET membershipType = ?, membershipDescription = ?, membershipCost = ?, memberID = ?
+            WHERE membershipID = ?
+        """;
+
         try (Connection conn = DatabaseConnection.getcon();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
@@ -93,6 +111,7 @@ public class MembershipDAO {
             ps.setInt(5, membership.getMembershipID());
 
             return ps.executeUpdate() > 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -107,6 +126,7 @@ public class MembershipDAO {
 
             ps.setInt(1, membershipID);
             return ps.executeUpdate() > 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

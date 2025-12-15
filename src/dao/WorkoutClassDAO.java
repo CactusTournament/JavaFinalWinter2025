@@ -28,25 +28,32 @@ public class WorkoutClassDAO {
     }
 
     // Create a workout class
-    public boolean createWorkoutClass(WorkoutClass wc) {
-        String sql = "INSERT INTO WorkoutClasses (workoutClassType, workoutClassDescription, trainerID) VALUES (?, ?, ?)";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, wc.getWorkoutClassType());
-            pstmt.setString(2, wc.getWorkoutClassDescription());
-            pstmt.setInt(3, wc.getTrainerID());
-            int affected = pstmt.executeUpdate();
-            if (affected > 0) {
-                ResultSet rs = pstmt.getGeneratedKeys();
-                if (rs.next()) {
-                    wc.setWorkoutClassID(rs.getInt(1)); // set generated ID back in object
-                }
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+   public boolean createWorkoutClass(WorkoutClass wc) {
+
+    if (wc.getTrainerID() <= 0) {
+        System.err.println("Invalid trainerID for WorkoutClass");
         return false;
     }
+
+    String sql = "INSERT INTO WorkoutClasses (workoutClassType, workoutClassDescription, trainerID) VALUES (?, ?, ?)";
+    try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        pstmt.setString(1, wc.getWorkoutClassType());
+        pstmt.setString(2, wc.getWorkoutClassDescription());
+        pstmt.setInt(3, wc.getTrainerID());
+
+        int affected = pstmt.executeUpdate();
+        if (affected > 0) {
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                wc.setWorkoutClassID(rs.getInt(1));
+            }
+            return true;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
 
     // Retrieve by ID
     public WorkoutClass getWorkoutClassById(int id) {
