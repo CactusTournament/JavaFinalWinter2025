@@ -18,16 +18,28 @@ import utils.DatabaseConnection;
 public class WorkoutClassDAO {
     private Connection conn;
 
-    // Constructors
+    /**
+     * Constructor initializes the DAO with a database connection.
+     * Uses DatabaseConnection utility to obtain the connection.
+     * 
+     */
     public WorkoutClassDAO() {
         this.conn = DatabaseConnection.getcon();
     }
 
+    /**
+     * Constructor with existing connection.
+     * @param conn The database connection to use.
+     */
     public WorkoutClassDAO(Connection conn) {
         this.conn = conn;
     }
 
-    // Create a workout class
+    /**
+     * Create a new WorkoutClass record in the database.
+     * @param wc The WorkoutClass object to be created.
+     * @return true if creation was successful, false otherwise.
+     */
    public boolean createWorkoutClass(WorkoutClass wc) {
 
     if (wc.getTrainerID() <= 0) {
@@ -55,7 +67,12 @@ public class WorkoutClassDAO {
     return false;
 }
 
-    // Retrieve by ID
+    /**
+     * Gets a WorkoutClass by its ID.
+     * 
+     * @param id id of the WorkoutClass to retrieve.
+     * @return The WorkoutClass object if found, null otherwise.
+     */
     public WorkoutClass getWorkoutClassById(int id) {
         String sql = "SELECT * FROM WorkoutClasses WHERE workoutClassID = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -75,7 +92,10 @@ public class WorkoutClassDAO {
         return null;
     }
 
-    // Retrieve all
+    /**
+     * Gets all WorkoutClass records from the database.
+     * @return A list of all WorkoutClass objects.
+     */
     public List<WorkoutClass> getAllWorkoutClasses() {
         List<WorkoutClass> list = new ArrayList<>();
         String sql = "SELECT * FROM WorkoutClasses";
@@ -94,7 +114,11 @@ public class WorkoutClassDAO {
         return list;
     }
 
-    // Update
+    /**
+     * Updates an existing WorkoutClass record in the database.
+     * @param wc The WorkoutClass object with updated information.
+     * @return true if update was successful, false otherwise.
+     */
     public boolean updateWorkoutClass(WorkoutClass wc) {
         String sql = "UPDATE WorkoutClasses SET workoutClassType = ?, workoutClassDescription = ?, trainerID = ? WHERE workoutClassID = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -109,7 +133,11 @@ public class WorkoutClassDAO {
         return false;
     }
 
-    // Delete
+    /**
+     * Deletes a WorkoutClass record from the database.
+     * @param id The ID of the WorkoutClass to delete.
+     * @return true if deletion was successful, false otherwise.
+     */
     public boolean deleteWorkoutClass(int id) {
         String sql = "DELETE FROM WorkoutClasses WHERE workoutClassID = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {

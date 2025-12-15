@@ -6,9 +6,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * LoggerUtil class to manage logging.
+ * 
+ * @author: Abiodun Magret Oyedele
+ * Date: 2025-12-06
+ */
 public class LoggerUtil {
     private static Logger logger = Logger.getLogger("GymLogger");
 
+    /**
+     * Static block to configure the logger.
+     * @throws IOException if there is an error creating the log file.
+     * 
+     */
     static {
         try {
             FileHandler fh = new FileHandler("gym_log.txt", true);
@@ -20,6 +31,11 @@ public class LoggerUtil {
         }
     }
 
+    /**
+     * Get the logger instance.
+     * 
+     * @return Logger instance
+     */
     public static Logger getLogger() {
         return logger;
     }

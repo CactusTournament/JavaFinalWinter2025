@@ -20,6 +20,9 @@ public class UserDAO {
      * Creates a new User in the database.
      * Expects the password to be hashed before calling this method.
      * Sets the generated userId on the User object.
+     * 
+     * @param user The User object to be created.
+     * @return true if creation was successful, false otherwise.
      */
     public boolean createUser(User user) {
         String sql = """
@@ -55,6 +58,8 @@ public class UserDAO {
 
     /**
      * Retrieves a User by username.
+     * @return null if no user is found.
+     * 
      */
     public User getUserByUsername(String username) {
         String sql = "SELECT * FROM Users WHERE userName = ?";
@@ -77,6 +82,8 @@ public class UserDAO {
 
     /**
      * Retrieves a User by their email.
+     * @param email The email of the user to retrieve.
+     * @return The User object if found, null otherwise.
      */
     public User getUserByEmail(String email) {
         String sql = "SELECT * FROM Users WHERE email = ?";
@@ -99,6 +106,8 @@ public class UserDAO {
 
     /**
      * Retrieves a User by their ID.
+     * @param userId The ID of the user to retrieve.
+     * @return The User object if found, null otherwise.
      */
     public User getUserById(int userId) {
         String sql = "SELECT * FROM Users WHERE userId = ?";
@@ -121,6 +130,8 @@ public class UserDAO {
 
     /**
      * Retrieves a list of all Users.
+     * 
+     * @return A list of User objects.
      */
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
@@ -143,6 +154,9 @@ public class UserDAO {
     /**
      * Updates a User record.
      * Expects the password to be hashed before calling this method.
+     * 
+     * @param user The User object with updated information.
+     * @return true if update was successful, false otherwise.
      */
     public boolean updateUser(User user) {
         String sql = """
@@ -172,6 +186,8 @@ public class UserDAO {
 
     /**
      * Deletes a User by ID.
+     * @param userId The ID of the user to delete.
+     * @return true if deletion was successful, false otherwise.
      */
     public boolean deleteUser(int userId) {
         String sql = "DELETE FROM Users WHERE userId = ?";
@@ -190,6 +206,8 @@ public class UserDAO {
 
     /**
      * Maps a ResultSet row to a User object.
+     * @param rs The ResultSet object.
+     * @return The mapped User object.
      */
     private User mapResultSetToUser(ResultSet rs) throws SQLException {
         return new User(

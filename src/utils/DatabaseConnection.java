@@ -1,8 +1,3 @@
-// NEW RECOMPILING
-// javac -d classes -cp "lib/*" $(find . -name "*.java") --------COMPILE TO CLASSES FOLDER
-// java -cp "classes:lib/*" JavaFinalWinter2025.tests.TestAllDAO -------RUN DAO TEST
-// java -cp "classes:lib/*" JavaFinalWinter2025.tests.TestAllServices -------RUN SERVICE TEST
-
 package utils;
 
 import java.sql.*;

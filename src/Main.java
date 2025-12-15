@@ -9,8 +9,9 @@ import utils.PasswordUtil;
  * Entry point for Gym Management System.
  * Handles user input, validation, and ensures passwords are hashed before DAO operations.
  *
- * Author: Brandon Maloney
- * Updated: 2025-12-12
+ * @author: Brandon Maloney
+ * Updated by: Abiodun Magret Oyedele
+ * Date: 2025-12-12
  */
 public class Main {
 
@@ -24,6 +25,11 @@ public class Main {
     private static final GymMerchDAO gymMerchDAO = new GymMerchDAO();
     private static final MembershipDAO membershipDAO = new MembershipDAO();
 
+    /**
+     * Main method - entry point of the application.
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         System.out.println("Welcome to the Gym Management System!");
 
@@ -58,7 +64,10 @@ public class Main {
         }
     }
 
-    // USER CRUD
+    /**
+     * USER CRUD
+     * Handles CRUD operations for Users.
+     */
     private static void handleUserCRUD() {
         System.out.println("\nUser Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
         String option = scanner.nextLine();
@@ -73,6 +82,9 @@ public class Main {
         }
     }
 
+    /**
+     * Creates a new user (Admin/Trainer/Member) after validating input and hashing password.
+     */
     private static void createUser() {
         // This method is now a registration endpoint that creates Admin/Trainer/Member records
         System.out.print("Enter username: ");
@@ -129,13 +141,18 @@ public class Main {
         System.out.println(created ? normalizedRole + " created successfully." : "Error creating " + normalizedRole + ".");
     }
 
-
+    /**
+     *  Lists all users in the system.
+     */
     private static void listAllUsers() {
         List<User> users = userDAO.getAllUsers();
         if (users.isEmpty()) System.out.println("No users found.");
         else users.forEach(System.out::println);
     }
 
+    /**
+     * Updates an existing user after validating input and hashing password if changed.
+     */
     private static void updateUser() {
         System.out.print("Enter user ID to update: ");
         int userId = Integer.parseInt(scanner.nextLine());
@@ -173,6 +190,9 @@ public class Main {
         System.out.println(updatedOk ? "User updated successfully." : "Error updating user.");
     }
 
+    /**
+     * Deletes a user by ID.
+     */
     private static void deleteUser() {
         System.out.print("Enter user ID to delete: ");
         int userId = Integer.parseInt(scanner.nextLine());
@@ -181,7 +201,9 @@ public class Main {
         System.out.println(deleted ? "User deleted successfully." : "Error deleting user.");
     }
 
-    // TRAINER CRUD
+    /**
+     * TRAINER CRUD
+     */
     private static void handleTrainerCRUD() {
         System.out.println("\nTrainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
         String option = scanner.nextLine();
@@ -196,6 +218,9 @@ public class Main {
         }
     }
 
+    /**
+     *  Creates a new trainer after validating input and hashing password.
+     */
     private static void createTrainer() {
         System.out.print("Enter trainer name: ");
         String name = scanner.nextLine().trim();
@@ -221,12 +246,18 @@ public class Main {
         System.out.println(created ? "Trainer created successfully." : "Error creating trainer.");
     }
 
+    /**
+     * Lists all trainers in the system.
+     */
     private static void listAllTrainers() {
         List<Trainer> trainers = trainerDAO.getAllTrainers();
         if (trainers.isEmpty()) System.out.println("No trainers found.");
         else trainers.forEach(System.out::println);
     }
 
+    /**
+     * Updates an existing trainer after validating input and hashing password if changed.
+     */
     private static void updateTrainer() {
         System.out.print("Enter trainer ID to update: ");
         int trainerId = Integer.parseInt(scanner.nextLine());
@@ -260,6 +291,9 @@ public class Main {
         System.out.println(updatedOk ? "Trainer updated successfully." : "Error updating trainer.");
     }
 
+    /**
+     * Deletes a trainer by ID.
+     */
     private static void deleteTrainer() {
         System.out.print("Enter trainer ID to delete: ");
         int trainerId = Integer.parseInt(scanner.nextLine());
@@ -268,7 +302,9 @@ public class Main {
         System.out.println(deleted ? "Trainer deleted successfully." : "Error deleting trainer.");
     }
 
-    // MEMBER CRUD
+    /**
+     * MEMBER CRUD
+     */
     private static void handleMemberCRUD() {
         System.out.println("\nMember Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
         String option = scanner.nextLine();
@@ -283,6 +319,9 @@ public class Main {
         }
     }
 
+    /**
+     * Creates a new member after validating input and hashing password.
+     */
     private static void createMember() {
         System.out.print("Enter member name: ");
         String name = scanner.nextLine().trim();
@@ -308,12 +347,18 @@ public class Main {
         System.out.println(created ? "Member created successfully." : "Error creating member.");
     }
 
+    /**
+     * Lists all members in the system.
+     */
     private static void listAllMembers() {
         List<Member> members = memberDAO.getAllMembers();
         if (members.isEmpty()) System.out.println("No members found.");
         else members.forEach(System.out::println);
     }
 
+    /**
+     * Updates an existing member after validating input and hashing password if changed.
+     */
     private static void updateMember() {
         System.out.print("Enter member ID to update: ");
         int memberId = Integer.parseInt(scanner.nextLine());
@@ -347,6 +392,9 @@ public class Main {
         System.out.println(updatedOk ? "Member updated successfully." : "Error updating member.");
     }
 
+    /**
+     * Deletes a member by ID.
+     */
     private static void deleteMember() {
         System.out.print("Enter member ID to delete: ");
         int memberId = Integer.parseInt(scanner.nextLine());
@@ -355,7 +403,9 @@ public class Main {
         System.out.println(deleted ? "Member deleted successfully." : "Error deleting member.");
     }
 
-    // ADMIN CRUD
+    /**
+     * ADMIN CRUD
+     */
     private static void handleAdminCRUD() {
         System.out.println("\nAdmin Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
         String option = scanner.nextLine();
@@ -370,6 +420,9 @@ public class Main {
         }
     }
 
+    /**
+     * Creates a new admin after validating input and hashing password.
+     */
     private static void createAdmin() {
         System.out.print("Enter admin name: ");
         String name = scanner.nextLine().trim();
@@ -395,12 +448,18 @@ public class Main {
         System.out.println(created ? "Admin created successfully." : "Error creating admin.");
     }
 
+    /**
+     * Lists all admins in the system.
+     */
     private static void listAllAdmins() {
         List<Admin> admins = adminDAO.getAllAdmins();
         if (admins.isEmpty()) System.out.println("No admins found.");
         else admins.forEach(System.out::println);
     }
 
+    /**
+     * Updates an existing admin after validating input and hashing password if changed.
+     */
     private static void updateAdmin() {
         System.out.print("Enter admin ID to update: ");
         int adminId = Integer.parseInt(scanner.nextLine());
@@ -434,6 +493,9 @@ public class Main {
         System.out.println(updatedOk ? "Admin updated successfully." : "Error updating admin.");
     }
 
+    /**
+     * Deletes an admin by ID.
+     */
     private static void deleteAdmin() {
         System.out.print("Enter admin ID to delete: ");
         int adminId = Integer.parseInt(scanner.nextLine());
@@ -442,7 +504,9 @@ public class Main {
         System.out.println(deleted ? "Admin deleted successfully." : "Error deleting admin.");
     }
 
-    // WORKOUT CLASS CRUD
+    /**
+     * WORKOUT CLASS CRUD
+     */
     private static void handleWorkoutClassCRUD() {
         System.out.println("\nWorkoutClass Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
         String option = scanner.nextLine();
@@ -457,6 +521,9 @@ public class Main {
         }
     }
 
+    /**
+     * Creates a new workout class after validating input.
+     */
     private static void createWorkoutClass() {
         System.out.print("Enter class name/type: ");
         String type = scanner.nextLine().trim();
@@ -476,12 +543,18 @@ public class Main {
         System.out.println(created ? "Workout class created successfully." : "Error creating workout class.");
     }
 
+    /**
+     * Lists all workout classes in the system.
+     */
     private static void listAllWorkoutClasses() {
         List<WorkoutClass> classes = workoutClassDAO.getAllWorkoutClasses();
         if (classes.isEmpty()) System.out.println("No workout classes found.");
         else classes.forEach(System.out::println);
     }
 
+    /**
+     * Updates an existing workout class after validating input.
+     */
     private static void updateWorkoutClass() {
         System.out.print("Enter class ID to update: ");
         int classId = Integer.parseInt(scanner.nextLine());
@@ -509,6 +582,9 @@ public class Main {
         System.out.println(updatedOk ? "Workout class updated successfully." : "Error updating workout class.");
     }
 
+    /**
+     * Deletes a workout class by ID.
+     */
     private static void deleteWorkoutClass() {
         System.out.print("Enter class ID to delete: ");
         int classId = Integer.parseInt(scanner.nextLine());
@@ -517,7 +593,9 @@ public class Main {
         System.out.println(deleted ? "Workout class deleted successfully." : "Error deleting workout class.");
     }
 
-    // GYM MERCH CRUD
+    /**
+     * GYM MERCH CRUD
+     */
     private static void handleGymMerchCRUD() {
         System.out.println("\nGymMerch Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
         String option = scanner.nextLine();
@@ -532,6 +610,9 @@ public class Main {
         }
     }
 
+    /**
+     * Creates a new gym merchandise item after validating input.
+     */
     private static void createGymMerch() {
         System.out.print("Enter item name: ");
         String name = scanner.nextLine().trim();
@@ -548,12 +629,18 @@ public class Main {
         System.out.println(created ? "Merch created successfully." : "Error creating merch.");
     }
 
+    /**
+     * Lists all gym merchandise items in the system.
+     */
     private static void listAllGymMerch() {
         List<GymMerch> merchList = gymMerchDAO.getAllGymMerch();
         if (merchList.isEmpty()) System.out.println("No merch found.");
         else merchList.forEach(System.out::println);
     }
 
+    /**
+     * Updates an existing gym merchandise item after validating input.
+     */
     private static void updateGymMerch() {
         System.out.print("Enter merch ID to update: ");
         int merchId = Integer.parseInt(scanner.nextLine());
@@ -584,6 +671,9 @@ public class Main {
         System.out.println(updatedOk ? "Merch updated successfully." : "Error updating merch.");
     }
 
+    /**
+     * Deletes a gym merchandise item by ID.
+     */
     private static void deleteGymMerch() {
         System.out.print("Enter merch ID to delete: ");
         int merchId = Integer.parseInt(scanner.nextLine());
@@ -592,7 +682,9 @@ public class Main {
         System.out.println(deleted ? "Merch deleted successfully." : "Error deleting merch.");
     }
 
-    // MEMBERSHIP CRUD
+    /**
+     * MEMBERSHIP CRUD
+     */
     private static void handleMembershipCRUD() {
         System.out.println("\nMembership Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
         String option = scanner.nextLine();
@@ -607,6 +699,9 @@ public class Main {
         }
     }
 
+    /**
+     * Creates a new membership after validating input.
+     */
     private static void createMembership() {
         System.out.print("Enter membership type: ");
         String type = scanner.nextLine().trim();
@@ -623,12 +718,18 @@ public class Main {
         System.out.println(created ? "Membership created successfully." : "Error creating membership.");
     }
 
+    /**
+     * Lists all memberships in the system.
+     */
     private static void listAllMemberships() {
         List<Membership> memberships = membershipDAO.getAllMemberships();
         if (memberships.isEmpty()) System.out.println("No memberships found.");
         else memberships.forEach(System.out::println);
     }
 
+    /**
+     * Updates an existing membership after validating input.
+     */
     private static void updateMembership() {
         System.out.print("Enter membership ID to update: ");
         int membershipId = Integer.parseInt(scanner.nextLine());
@@ -659,6 +760,9 @@ public class Main {
         System.out.println(updatedOk ? "Membership updated successfully." : "Error updating membership.");
     }
 
+    /**
+     * Deletes a membership by ID.
+     */
     private static void deleteMembership() {
         System.out.print("Enter membership ID to delete: ");
         int membershipId = Integer.parseInt(scanner.nextLine());

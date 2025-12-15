@@ -17,8 +17,10 @@ import utils.DatabaseConnection;
 public class TrainerDAO {
 
     /**
-     * Creates a new Trainer (User with role 'Trainer').
-     * If a trainer with the same email already exists, reuse it.
+     * Creates a new Trainer record.
+     * 
+     * @param trainer The Trainer object to be created.
+     * @return true if creation was successful, false otherwise.
      */
     public boolean createTrainer(Trainer trainer) {
 
@@ -61,6 +63,8 @@ public class TrainerDAO {
 
     /**
      * Retrieves a Trainer by ID.
+     * @param trainerId The ID of the Trainer to retrieve.
+     * @return The Trainer object if found, null otherwise.
      */
     public Trainer getTrainerById(int trainerId) {
         String sql = "SELECT * FROM Users WHERE userId = ? AND userRole = 'Trainer'";
@@ -83,6 +87,8 @@ public class TrainerDAO {
 
     /**
      * Retrieves a Trainer by email.
+     * @param email The email of the Trainer to retrieve.
+     * @return The Trainer object if found, null otherwise.
      */
     public Trainer getTrainerByEmail(String email) {
         String sql = "SELECT * FROM Users WHERE email = ? AND userRole = 'Trainer'";
@@ -105,6 +111,8 @@ public class TrainerDAO {
 
     /**
      * Returns a list of all Trainer records.
+     * @return List of Trainer objects.
+     * 
      */
     public List<Trainer> getAllTrainers() {
         List<Trainer> trainers = new ArrayList<>();
@@ -126,6 +134,8 @@ public class TrainerDAO {
 
     /**
      * Updates a Trainer record.
+     * @param trainer The Trainer object with updated information.
+     * @return true if update was successful, false otherwise.
      */
     public boolean updateTrainer(Trainer trainer) {
         String sql = """
@@ -154,6 +164,8 @@ public class TrainerDAO {
 
     /**
      * Deletes a Trainer.
+     * @param trainerId The ID of the Trainer to delete.
+     * @return true if deletion was successful, false otherwise.
      */
     public boolean deleteTrainer(int trainerId) {
         String sql = "DELETE FROM Users WHERE userId = ? AND userRole = 'Trainer'";
@@ -172,6 +184,8 @@ public class TrainerDAO {
 
     /**
      * Maps a ResultSet row to a Trainer object.
+     * @param rs The ResultSet to map.
+     * @return The mapped Trainer object.
      */
     private Trainer mapResultSetToTrainer(ResultSet rs) throws SQLException {
         return new Trainer(

@@ -12,7 +12,7 @@ import utils.DatabaseConnection;
  * in the Gym Management System. It runs tests for UserService, MembershipService,
  * WorkoutClassService, and GymMerchService.
  * 
- * <p>Each service test covers CRUD operations and basic functionality.</p>
+ * Each service test covers CRUD operations and basic functionality.
  * 
  * @author Abiodun Magret
  */
