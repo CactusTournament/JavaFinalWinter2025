@@ -1230,6 +1230,8 @@ Implemented business logic services that coordinate application operations:
 - UserService.java: Service class for handling user-related operations such as registration and login.
 - MembershipService.java: Service class for handling membership-related operations.
 
+#### Javadocs
+Implemented javadocs in the projects
 
 #### Utilities
 - Created core utilities for database connectivity and logging:
