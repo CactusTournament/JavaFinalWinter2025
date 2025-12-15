@@ -1,4 +1,4 @@
-package JavaFinalWinter2025.src;
+package models;
 
 /**
  * Membership class representing membership details in the system.

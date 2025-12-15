@@ -1,7 +1,7 @@
-package JavaFinalWinter2025.dao;
+package dao;
 
-import JavaFinalWinter2025.src.GymMerch;
-import JavaFinalWinter2025.utils.DatabaseConnection;
+import models.GymMerch;
+import utils.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

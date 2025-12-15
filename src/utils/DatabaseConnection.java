@@ -3,7 +3,7 @@
 // java -cp "classes:lib/*" JavaFinalWinter2025.tests.TestAllDAO -------RUN DAO TEST
 // java -cp "classes:lib/*" JavaFinalWinter2025.tests.TestAllServices -------RUN SERVICE TEST
 
-package JavaFinalWinter2025.utils;
+package utils;
 
 import java.sql.*;
 import io.github.cdimascio.dotenv.Dotenv;

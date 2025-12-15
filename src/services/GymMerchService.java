@@ -1,9 +1,9 @@
-package JavaFinalWinter2025.services;
+package services;
 
-import JavaFinalWinter2025.dao.GymMerchDAO;
-import JavaFinalWinter2025.src.GymMerch;
+import dao.GymMerchDAO;
+import models.GymMerch;
 import java.util.List;
-import JavaFinalWinter2025.utils.LoggerUtil;
+import utils.LoggerUtil;
 import java.util.logging.Logger;
 
 /**
@@ -131,4 +131,3 @@ public class GymMerchService {
         }
     }
 }
-

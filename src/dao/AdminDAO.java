@@ -1,11 +1,10 @@
-package JavaFinalWinter2025.dao;
+package dao;
 
-import JavaFinalWinter2025.src.Admin;
-import JavaFinalWinter2025.utils.DatabaseConnection;
-import JavaFinalWinter2025.utils.PasswordUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import models.Admin;
+import utils.DatabaseConnection;
 
 /**
  * AdminDAO
@@ -29,13 +28,11 @@ public class AdminDAO {
         try (Connection conn = DatabaseConnection.getcon();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
-            String hashedPassword = PasswordUtil.hashPassword(admin.getPasswordHash());
-
             ps.setString(1, admin.getUserName());
             ps.setString(2, admin.getUserAddress());
             ps.setString(3, admin.getUserPhoneNumber());
             ps.setString(4, admin.getUserRole());
-            ps.setString(5, hashedPassword);
+            ps.setString(5, admin.getPasswordHash());
             ps.setString(6, admin.getEmail());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -68,6 +65,29 @@ public class AdminDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public Admin getAdminByEmail(String email) throws SQLException {
+        String sql = "SELECT * FROM admins WHERE email = ?";
+        try (Connection conn = DatabaseConnection.getcon();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Admin(
+                        rs.getInt("userId"),
+                        rs.getString("userName"),
+                        rs.getString("passwordHash"),
+                        rs.getString("email"),
+                        rs.getString("userPhoneNumber"),
+                        rs.getString("userAddress")
+                );
+            }
         }
         return null;
     }
@@ -111,12 +131,10 @@ public class AdminDAO {
         try (Connection conn = DatabaseConnection.getcon();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
-            String hashedPassword = PasswordUtil.hashPassword(admin.getPasswordHash());
-
             ps.setString(1, admin.getUserName());
             ps.setString(2, admin.getUserAddress());
             ps.setString(3, admin.getUserPhoneNumber());
-            ps.setString(4, hashedPassword);
+            ps.setString(4, admin.getPasswordHash());
             ps.setString(5, admin.getEmail());
             ps.setInt(6, admin.getUserId());
             return ps.executeUpdate() > 0;

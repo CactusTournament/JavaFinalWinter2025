@@ -1,10 +1,10 @@
-package JavaFinalWinter2025.dao;
+package dao;
 
-import JavaFinalWinter2025.src.Membership;
-import JavaFinalWinter2025.utils.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import models.Membership;
+import utils.DatabaseConnection;
 
 /**
  * MembershipDAO
@@ -16,46 +16,52 @@ import java.util.List;
  */
 public class MembershipDAO {
 
-    /**
-     * Creates a new membership in the database.
-     *
-     * @param membership The Membership object to add.
-     * @return true if the membership was successfully created; false otherwise.
-     */
+    /** Creates a new membership in the database and sets the generated ID. */
     public boolean createMembership(Membership membership) {
-        String query = "INSERT INTO Memberships (membershipType, membershipDescription, membershipCost, memberID) VALUES (?, ?, ?, ?)";
+        String query = """
+            INSERT INTO Memberships (membershipType, membershipDescription, membershipCost, memberID)
+            VALUES (?, ?, ?, ?)
+        """;
+
         try (Connection conn = DatabaseConnection.getcon();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+             PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
             ps.setString(1, membership.getMembershipType());
             ps.setString(2, membership.getMembershipDescription());
             ps.setDouble(3, membership.getMembershipCost());
             ps.setInt(4, membership.getMemberID());
-            return ps.executeUpdate() > 0;
+
+            int rows = ps.executeUpdate();
+            if (rows == 0) return false;
+
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    membership.setMembershipID(keys.getInt(1));
+                }
+            }
+            return true;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    /**
-     * Retrieves a membership by its ID.
-     *
-     * @param membershipID The ID of the membership.
-     * @return Membership object if found; null otherwise.
-     */
+    /** Retrieves a membership by ID. */
     public Membership getMembershipById(int membershipID) {
         String query = "SELECT * FROM Memberships WHERE membershipID = ?";
         try (Connection conn = DatabaseConnection.getcon();
              PreparedStatement ps = conn.prepareStatement(query)) {
+
             ps.setInt(1, membershipID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Membership(
-                        rs.getInt("membershipID"),
-                        rs.getString("membershipType"),
-                        rs.getString("membershipDescription"),
-                        rs.getDouble("membershipCost"),
-                        rs.getInt("memberID")
+                    rs.getInt("membershipID"),
+                    rs.getString("membershipType"),
+                    rs.getString("membershipDescription"),
+                    rs.getDouble("membershipCost"),
+                    rs.getInt("memberID")
                 );
             }
         } catch (SQLException e) {
@@ -64,66 +70,63 @@ public class MembershipDAO {
         return null;
     }
 
-    /**
-     * Retrieves all memberships from the database.
-     *
-     * @return List of Membership objects. Returns an empty list if none are found.
-     */
+    /** Retrieves all memberships. */
     public List<Membership> getAllMemberships() {
-        List<Membership> memberships = new ArrayList<>();
+        List<Membership> list = new ArrayList<>();
         String query = "SELECT * FROM Memberships";
         try (Connection conn = DatabaseConnection.getcon();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
+
             while (rs.next()) {
-                memberships.add(new Membership(
-                        rs.getInt("membershipID"),
-                        rs.getString("membershipType"),
-                        rs.getString("membershipDescription"),
-                        rs.getDouble("membershipCost"),
-                        rs.getInt("memberID")
+                list.add(new Membership(
+                    rs.getInt("membershipID"),
+                    rs.getString("membershipType"),
+                    rs.getString("membershipDescription"),
+                    rs.getDouble("membershipCost"),
+                    rs.getInt("memberID")
                 ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return memberships;
+        return list;
     }
 
-    /**
-     * Updates an existing membership in the database.
-     *
-     * @param membership The Membership object with updated information.
-     * @return true if the update was successful; false otherwise.
-     */
+    /** Updates an existing membership. */
     public boolean updateMembership(Membership membership) {
-        String query = "UPDATE Memberships SET membershipType = ?, membershipDescription = ?, membershipCost = ?, memberID = ? WHERE membershipID = ?";
+        String query = """
+            UPDATE Memberships
+            SET membershipType = ?, membershipDescription = ?, membershipCost = ?, memberID = ?
+            WHERE membershipID = ?
+        """;
+
         try (Connection conn = DatabaseConnection.getcon();
              PreparedStatement ps = conn.prepareStatement(query)) {
+
             ps.setString(1, membership.getMembershipType());
             ps.setString(2, membership.getMembershipDescription());
             ps.setDouble(3, membership.getMembershipCost());
             ps.setInt(4, membership.getMemberID());
             ps.setInt(5, membership.getMembershipID());
+
             return ps.executeUpdate() > 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    /**
-     * Deletes a membership from the database by its ID.
-     *
-     * @param membershipID The ID of the membership to delete.
-     * @return true if the deletion was successful; false otherwise.
-     */
+    /** Deletes a membership by ID. */
     public boolean deleteMembership(int membershipID) {
         String query = "DELETE FROM Memberships WHERE membershipID = ?";
         try (Connection conn = DatabaseConnection.getcon();
              PreparedStatement ps = conn.prepareStatement(query)) {
+
             ps.setInt(1, membershipID);
             return ps.executeUpdate() > 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
