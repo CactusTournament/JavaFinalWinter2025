@@ -1151,3 +1151,53 @@ Class created successfully!
 Enter choice: 6
 Logging out...
 ```
+
+
+
+## 5. Individual Report
+### 5.1 Contributions
+#### Models Layer
+Developed the foundational data models that represent gym entities:
+- User.java: Base user model with authentication and contact information
+- Admin.java: Admin-specific functionality extending User class
+- Trainer.java: Trainer model for fitness instructors
+- Member.java: Member model for gym customers
+- Membership.java: Membership model with tiered pricing
+- WorkoutClass.java: Workout class model with scheduling capabilities
+- GymMerch.java: Merchandise model for inventory management
+
+#### Services Layer
+Implemented business logic services that coordinate application operations:
+- GymMerchService.java: Service layer for managing GymMerch operations. 
+- WorkoutClassService.java: Service layer for managing WorkoutClass operations.
+- UserService.java: Service class for handling user-related operations such as registration and login.
+- MembershipService.java: Service class for handling membership-related operations.
+
+
+#### Utilities
+- Created core utilities for database connectivity and logging:
+- DatabaseConnection.java: DatabaseConnection class to manage database connections.
+- LoggerUtil.java: Centralized logging system for system monitoring
+
+#### Pull Requests & Branches
+Contributed through multiple feature branches and pull requests:
+- magret/databaseconnection: Database connection infrastructure
+- magret/classes: Core model implementations
+- magret/services: Business logic service layer
+- magret/readme: Project documentation and setup instructions
+
+5.2 Team Contributions
+- Participated in code reviews and PR
+- Collaborated on API design and database schema decisions
+- Assisted in debugging and troubleshooting team code
+- Contributed to project documentation and deployment guides
+
+5.3 Challenges Faced
+1. Environment Configuration
+**Challenge**: Importing and configuring the dotenv library for environment variable management was initially problematic.
+
+2. Project Structure Understanding
+**Challenge**: Initially struggled with understanding the project architecture, leading to some disorganized code placement.
+
+3. Service Testing Difficulties
+**Challenge**: Testing services proved difficult due to complex dependencies and database state management.
