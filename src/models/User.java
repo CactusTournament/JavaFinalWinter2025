@@ -13,7 +13,7 @@ package models;
  * - passwordHash: Hashed password for security
  * - email: Email address of the user
  * 
- * @author: Abiodun Magret Oyedele
+ * Author: Abiodun Magret Oyedele
  * Date: 2025-12-06
  */
 public class User {

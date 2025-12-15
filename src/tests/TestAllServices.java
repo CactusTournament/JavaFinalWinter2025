@@ -19,6 +19,13 @@ import utils.DatabaseConnection;
 public class TestAllServices {
 
     /**
+     * Default constructor for TestAllServices.
+     */
+    public TestAllServices() {
+        // No initialization required for now
+    }
+
+    /**
      * Main method to run all service tests.
      * 
      * @param args command line arguments

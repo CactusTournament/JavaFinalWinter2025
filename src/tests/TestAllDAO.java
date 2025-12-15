@@ -7,10 +7,17 @@ import models.*;
 
 /**
  * TestAllDAO class to test all DAO functionalities.
- * @author: Brandon Maloney
- * @date: 2025-12-08
+ * Author: Brandon Maloney
+ * Date: 2025-12-08
  */
 public class TestAllDAO {
+
+    /**
+     * Default constructor for TestAllDAO.
+     */
+    public TestAllDAO() {
+        // No initialization required for now
+    }
 
     /**
      * Main method to run all DAO tests.

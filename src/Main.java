@@ -9,7 +9,7 @@ import utils.PasswordUtil;
  * Entry point for Gym Management System.
  * Handles user input, validation, and ensures passwords are hashed before DAO operations.
  *
- * @author: Brandon Maloney
+ * Author: Brandon Maloney
  * Updated by: Abiodun Magret Oyedele
  * Date: 2025-12-12
  */
@@ -24,6 +24,13 @@ public class Main {
     private static final WorkoutClassDAO workoutClassDAO = new WorkoutClassDAO();
     private static final GymMerchDAO gymMerchDAO = new GymMerchDAO();
     private static final MembershipDAO membershipDAO = new MembershipDAO();
+
+    /**
+     * Default constructor for Main class.
+     */
+    public Main() {
+        // No initialization required for now
+    }
 
     /**
      * Main method - entry point of the application.

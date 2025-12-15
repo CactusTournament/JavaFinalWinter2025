@@ -17,6 +17,14 @@ import utils.DatabaseConnection;
 public class TrainerDAO {
 
     /**
+     * Default constructor for TrainerDAO.
+     * Initializes an instance of TrainerDAO for performing CRUD operations.
+     */
+    public TrainerDAO() {
+        // No initialization required for now
+    }
+
+    /**
      * Creates a new Trainer record.
      * 
      * @param trainer The Trainer object to be created.

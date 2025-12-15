@@ -8,13 +8,22 @@ import utils.DatabaseConnection;
 
 /**
  * AdminDAO
- * Data Access Object (DAO) class for performing CRUD operations on Admin users in the database.
- * Handles creation, retrieval, update, and deletion of Admin records in the Users table.
+ * Data Access Object (DAO) class for performing CRUD operations on Admin users.
+ * Handles creation, retrieval, update, and deletion of Admin records in the
+ * database.
  * 
  * Author: Brandon Maloney
- * Date: 2025-12-08
+ * Date: 2025-12-06
  */
 public class AdminDAO {
+
+    /**
+     * Default constructor for AdminDAO.
+     * Initializes an instance of AdminDAO for performing CRUD operations.
+     */
+    public AdminDAO() {
+        // No initialization required for now
+    }
 
     /**
      * Creates a new admin in the database.
@@ -26,7 +35,7 @@ public class AdminDAO {
     public boolean createAdmin(Admin admin) {
         String query = "INSERT INTO Users (userName, userAddress, userPhoneNumber, userRole, passwordHash, email) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getcon();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+                PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, admin.getUserName());
             ps.setString(2, admin.getUserAddress());
@@ -50,7 +59,7 @@ public class AdminDAO {
     public Admin getAdminById(int userId) {
         String query = "SELECT * FROM Users WHERE userId = ? AND userRole = 'Admin'";
         try (Connection conn = DatabaseConnection.getcon();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+                PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -60,8 +69,7 @@ public class AdminDAO {
                         rs.getString("passwordHash"),
                         rs.getString("email"),
                         rs.getString("userPhoneNumber"),
-                        rs.getString("userAddress")
-                );
+                        rs.getString("userAddress"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,11 +77,17 @@ public class AdminDAO {
         return null;
     }
 
-
+    /**
+     * Retrieves an admin by their email address.
+     *
+     * @param email The email of the admin to retrieve.
+     * @return Admin object if found; null otherwise.
+     * @throws SQLException if a database access error occurs.
+     */
     public Admin getAdminByEmail(String email) throws SQLException {
         String sql = "SELECT * FROM admins WHERE email = ?";
         try (Connection conn = DatabaseConnection.getcon();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
@@ -85,8 +99,7 @@ public class AdminDAO {
                         rs.getString("passwordHash"),
                         rs.getString("email"),
                         rs.getString("userPhoneNumber"),
-                        rs.getString("userAddress")
-                );
+                        rs.getString("userAddress"));
             }
         }
         return null;
@@ -101,8 +114,8 @@ public class AdminDAO {
         List<Admin> admins = new ArrayList<>();
         String query = "SELECT * FROM Users WHERE userRole = 'Admin'";
         try (Connection conn = DatabaseConnection.getcon();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 admins.add(new Admin(
                         rs.getInt("userId"),
@@ -110,8 +123,7 @@ public class AdminDAO {
                         rs.getString("passwordHash"),
                         rs.getString("email"),
                         rs.getString("userPhoneNumber"),
-                        rs.getString("userAddress")
-                ));
+                        rs.getString("userAddress")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -129,7 +141,7 @@ public class AdminDAO {
     public boolean updateAdmin(Admin admin) {
         String query = "UPDATE Users SET userName = ?, userAddress = ?, userPhoneNumber = ?, passwordHash = ?, email = ? WHERE userId = ?";
         try (Connection conn = DatabaseConnection.getcon();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+                PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, admin.getUserName());
             ps.setString(2, admin.getUserAddress());
@@ -153,7 +165,7 @@ public class AdminDAO {
     public boolean deleteAdmin(int userId) {
         String query = "DELETE FROM Users WHERE userId = ? AND userRole = 'Admin'";
         try (Connection conn = DatabaseConnection.getcon();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+                PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, userId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {

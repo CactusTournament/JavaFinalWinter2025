@@ -17,6 +17,14 @@ import utils.DatabaseConnection;
 public class MembershipDAO {
 
     /**
+     * Default constructor for MembershipDAO.
+     * Initializes an instance of MembershipDAO for performing CRUD operations.
+     */
+    public MembershipDAO() {
+        // No initialization required for now
+    }
+
+    /**
      * Creates a new membership in the database.
      * @param membership The Membership object to be created.
      * @return true if the membership was created successfully, false otherwise.

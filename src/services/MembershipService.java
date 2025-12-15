@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * Service class for handling membership-related operations.
  * Utilizes MembershipDAO for database interactions.
  * 
- * @author: Abiodun Magret Oyedele
+ * Author: Abiodun Magret Oyedele
  * Date: 2025-12-09
  */
 public class MembershipService {
@@ -35,6 +35,7 @@ public class MembershipService {
      * Add a new membership.
      * 
      * @param membership The Membership object to add.
+     * @return The added Membership object if successful; null otherwise.
      */
     public Membership addMembership(Membership membership) {
         try {

@@ -17,6 +17,14 @@ import utils.DatabaseConnection;
 public class MemberDAO {
 
     /**
+     * Default constructor for MemberDAO.
+     * Initializes an instance of MemberDAO for performing CRUD operations.
+     */
+    public MemberDAO() {
+        // No initialization required for now
+    }
+
+    /**
      * Creates a new member in the database.
      * 
      * @param member The Member object to be created.

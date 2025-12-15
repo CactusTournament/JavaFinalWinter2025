@@ -9,11 +9,18 @@ import java.util.logging.SimpleFormatter;
 /**
  * LoggerUtil class to manage logging.
  * 
- * @author: Abiodun Magret Oyedele
+ * Author: Abiodun Magret Oyedele
  * Date: 2025-12-06
  */
 public class LoggerUtil {
     private static Logger logger = Logger.getLogger("GymLogger");
+
+    /**
+     * Default private constructor to prevent instantiation.
+     */
+    private LoggerUtil() {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Static block to configure the logger.

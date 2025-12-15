@@ -17,6 +17,14 @@ import utils.DatabaseConnection;
 public class UserDAO {
 
     /**
+     * Default constructor for UserDAO.
+     * Initializes an instance of UserDAO for performing CRUD operations.
+     */
+    public UserDAO() {
+        // No initialization required for now
+    }
+
+    /**
      * Creates a new User in the database.
      * Expects the password to be hashed before calling this method.
      * Sets the generated userId on the User object.
@@ -58,6 +66,7 @@ public class UserDAO {
 
     /**
      * Retrieves a User by username.
+     * @param username The username of the user to retrieve.
      * @return null if no user is found.
      * 
      */
