@@ -10,7 +10,8 @@ import utils.LoggerUtil;
 /**
  * WorkoutClassService
  * Service layer for managing WorkoutClass operations.
- * Methods throw SQLException to allow tests and callers to handle database errors.
+ * Methods throw SQLException to allow tests and callers to handle database
+ * errors.
  * 
  * Author: Abiodun Magret Oyedele
  * Updated: 2025-12-11
@@ -21,7 +22,9 @@ public class WorkoutClassService {
     private static final Logger logger = LoggerUtil.getLogger();
 
     /**
-     * Constructor to initialize WorkoutClassService with a WorkoutClassDAO instance.
+     * Constructor to initialize WorkoutClassService with a WorkoutClassDAO
+     * instance.
+     * 
      * @param workoutClassDAO The WorkoutClassDAO instance to use.
      */
     public WorkoutClassService(WorkoutClassDAO workoutClassDAO) {
@@ -30,6 +33,7 @@ public class WorkoutClassService {
 
     /**
      * Adds a new WorkoutClass.
+     * 
      * @param workoutClass WorkoutClass object to add.
      * @throws SQLException if a database error occurs.
      */
@@ -40,6 +44,7 @@ public class WorkoutClassService {
 
     /**
      * Retrieves a WorkoutClass by ID.
+     * 
      * @param id ID of the workout class.
      * @return WorkoutClass object if found, null otherwise.
      * @throws SQLException if a database error occurs.
@@ -55,7 +60,30 @@ public class WorkoutClassService {
     }
 
     /**
+     * Retrieves all WorkoutClasses assigned to a trainer.
+     *
+     * @param trainerId ID of the trainer.
+     * @return List of WorkoutClass objects.
+     * @throws SQLException if a database error occurs.
+     */
+    public List<WorkoutClass> getWorkoutClassesByTrainerId(int trainerId)
+            throws SQLException {
+
+        List<WorkoutClass> classes = workoutClassDAO.getWorkoutClassesByTrainerId(trainerId);
+
+        if (classes.isEmpty()) {
+            logger.warning("No workout classes found for Trainer ID " + trainerId);
+        } else {
+            logger.info("Retrieved " + classes.size()
+                    + " workout classes for Trainer ID " + trainerId);
+        }
+
+        return classes;
+    }
+
+    /**
      * Retrieves all WorkoutClasses.
+     * 
      * @return List of all WorkoutClass objects.
      * @throws SQLException if a database error occurs.
      */
@@ -67,6 +95,7 @@ public class WorkoutClassService {
 
     /**
      * Updates an existing WorkoutClass.
+     * 
      * @param workoutClass WorkoutClass object with updated data.
      * @throws SQLException if a database error occurs.
      */
@@ -77,6 +106,7 @@ public class WorkoutClassService {
 
     /**
      * Deletes a WorkoutClass by ID.
+     * 
      * @param id ID of the WorkoutClass to delete.
      * @throws SQLException if a database error occurs.
      */

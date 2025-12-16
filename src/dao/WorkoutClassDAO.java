@@ -29,6 +29,7 @@ public class WorkoutClassDAO {
 
     /**
      * Constructor with existing connection.
+     * 
      * @param conn The database connection to use.
      */
     public WorkoutClassDAO(Connection conn) {
@@ -37,35 +38,36 @@ public class WorkoutClassDAO {
 
     /**
      * Create a new WorkoutClass record in the database.
+     * 
      * @param wc The WorkoutClass object to be created.
      * @return true if creation was successful, false otherwise.
      */
-   public boolean createWorkoutClass(WorkoutClass wc) {
+    public boolean createWorkoutClass(WorkoutClass wc) {
 
-    if (wc.getTrainerID() <= 0) {
-        System.err.println("Invalid trainerID for WorkoutClass");
+        if (wc.getTrainerID() <= 0) {
+            System.err.println("Invalid trainerID for WorkoutClass");
+            return false;
+        }
+
+        String sql = "INSERT INTO WorkoutClasses (workoutClassType, workoutClassDescription, trainerID) VALUES (?, ?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, wc.getWorkoutClassType());
+            pstmt.setString(2, wc.getWorkoutClassDescription());
+            pstmt.setInt(3, wc.getTrainerID());
+
+            int affected = pstmt.executeUpdate();
+            if (affected > 0) {
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    wc.setWorkoutClassID(rs.getInt(1));
+                }
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
-
-    String sql = "INSERT INTO WorkoutClasses (workoutClassType, workoutClassDescription, trainerID) VALUES (?, ?, ?)";
-    try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        pstmt.setString(1, wc.getWorkoutClassType());
-        pstmt.setString(2, wc.getWorkoutClassDescription());
-        pstmt.setInt(3, wc.getTrainerID());
-
-        int affected = pstmt.executeUpdate();
-        if (affected > 0) {
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                wc.setWorkoutClassID(rs.getInt(1));
-            }
-            return true;
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return false;
-}
 
     /**
      * Gets a WorkoutClass by its ID.
@@ -83,8 +85,7 @@ public class WorkoutClassDAO {
                         rs.getInt("workoutClassID"),
                         rs.getString("workoutClassType"),
                         rs.getString("workoutClassDescription"),
-                        rs.getInt("trainerID")
-                );
+                        rs.getInt("trainerID"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,7 +94,37 @@ public class WorkoutClassDAO {
     }
 
     /**
+     * Gets all WorkoutClasses assigned to a trainer.
+     *
+     * @param trainerId ID of the trainer.
+     * @return List of WorkoutClass objects.
+     */
+    public List<WorkoutClass> getWorkoutClassesByTrainerId(int trainerId) {
+        List<WorkoutClass> classes = new ArrayList<>();
+
+        String sql = "SELECT * FROM WorkoutClasses WHERE trainerID = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, trainerId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                classes.add(new WorkoutClass(
+                        rs.getInt("workoutClassID"),
+                        rs.getString("workoutClassType"),
+                        rs.getString("workoutClassDescription"),
+                        rs.getInt("trainerID")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return classes;
+    }
+
+    /**
      * Gets all WorkoutClass records from the database.
+     * 
      * @return A list of all WorkoutClass objects.
      */
     public List<WorkoutClass> getAllWorkoutClasses() {
@@ -105,8 +136,7 @@ public class WorkoutClassDAO {
                         rs.getInt("workoutClassID"),
                         rs.getString("workoutClassType"),
                         rs.getString("workoutClassDescription"),
-                        rs.getInt("trainerID")
-                ));
+                        rs.getInt("trainerID")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,6 +146,7 @@ public class WorkoutClassDAO {
 
     /**
      * Updates an existing WorkoutClass record in the database.
+     * 
      * @param wc The WorkoutClass object with updated information.
      * @return true if update was successful, false otherwise.
      */
@@ -135,6 +166,7 @@ public class WorkoutClassDAO {
 
     /**
      * Deletes a WorkoutClass record from the database.
+     * 
      * @param id The ID of the WorkoutClass to delete.
      * @return true if deletion was successful, false otherwise.
      */
