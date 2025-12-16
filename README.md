@@ -1260,3 +1260,117 @@ Contributed through multiple feature branches and pull requests:
 
 3. Service Testing Difficulties
 **Challenge**: Testing services proved difficult due to complex dependencies and database state management.
+
+---
+
+### 5.4 Individual Contribution - Data Access Layer & Testing Infrastructure
+
+#### DAO (Data Access Object) Layer
+Developed and implemented the complete DAO layer responsible for all database operations:
+
+- **UserDAO.java**: Core user database operations including CRUD functionality, authentication queries, and user retrieval by various criteria (username, email, ID)
+- **AdminDAO.java**: Admin-specific database operations with role-based filtering
+- **TrainerDAO.java**: Trainer database management including class assignment queries
+- **MemberDAO.java**: Member-specific database operations and membership tracking
+- **MembershipDAO.java**: Membership purchase and retrieval operations
+- **WorkoutClassDAO.java**: Workout class database management with trainer associations
+- **GymMerchDAO.java**: Merchandise inventory database operations
+
+**Key Responsibilities:**
+- Implemented all SQL queries for CRUD operations
+- Created ResultSet to Object mapping methods
+- Established database connection handling patterns
+- Ensured proper exception handling and resource cleanup
+- Implemented prepared statements to prevent SQL injection
+
+#### Security Infrastructure
+**PasswordUtil.java**: Developed the complete password security system
+- Implemented BCrypt password hashing for secure storage
+- Created password verification methods for login authentication
+- Ensured passwords are never stored in plain text
+- Configured appropriate BCrypt work factor for security vs. performance balance
+
+#### Application Entry Point
+**Main.java**: Built the complete console-based user interface and application flow
+- Designed and implemented the menu-driven interface system
+- Created CRUD menus for all entities (Users, Admins, Trainers, Members, Workout Classes, Memberships, Merchandise)
+- Implemented input validation and error handling
+- Integrated PasswordUtil for secure user registration
+- Connected UI layer to DAO layer for data operations
+- Managed user session flow and role-based menu navigation
+
+#### Database Schema
+**DatabaseSchema.sql**: Designed and created the complete database structure
+- Defined all database tables with appropriate data types
+- Established primary key constraints
+- Created foreign key relationships between tables
+- Ensured referential integrity across the schema
+- Optimized table structure for application needs
+
+**Database Tables Created:**
+- Users table with role-based access control
+- Memberships table with foreign key to Users
+- WorkoutClasses table with trainer associations
+- GymMerch table for inventory management
+
+#### Testing Infrastructure
+**TestAllDAO.java**: Developed comprehensive DAO testing suite
+- Created test cases for all DAO classes
+- Validated CRUD operations for each entity
+- Tested database connectivity and error scenarios
+- Ensured data integrity and proper exception handling
+- Verified ResultSet mapping accuracy
+
+**Testing Coverage:**
+- UserDAO: Registration, login, retrieval, update, delete operations
+- AdminDAO: Admin-specific operations with role filtering
+- TrainerDAO: Trainer management and workout class associations
+- MemberDAO: Member operations and membership tracking
+- MembershipDAO: Purchase and retrieval operations
+- WorkoutClassDAO: Class creation and trainer assignments
+- GymMerchDAO: Inventory management operations
+
+#### Pull Requests & Branches
+- **dao-implementation**: Complete DAO layer implementation
+- **password-security**: Password hashing and authentication system
+- **main-application**: Console interface and application flow
+- **database-schema**: Database design and implementation
+- **dao-testing**: DAO testing infrastructure
+
+#### Technical Achievements
+1. **Database Layer Foundation**: Established the entire data persistence layer that all other components depend on
+2. **Security Implementation**: Ensured secure password handling throughout the application
+3. **Testing Framework**: Created reliable testing infrastructure for validating database operations
+4. **User Interface**: Built intuitive console-based interface for end users
+5. **SQL Expertise**: Wrote optimized SQL queries with proper parameterization
+
+#### Challenges Faced
+
+1. **Database Connection Management**
+   - **Challenge**: Initially struggled with properly managing database connections, leading to connection leaks and resource exhaustion
+   - **Solution**: Implemented try-with-resources pattern and ensured all connections, statements, and result sets were properly closed
+
+2. **BCrypt Integration**
+   - **Challenge**: Third time working with BCrypt library, encountered issues with salt generation and work factor configuration
+   - **Solution**: Researched BCrypt best practices and implemented appropriate hashing strategy
+
+3. **ResultSet to Object Mapping**
+   - **Challenge**: Creating consistent and maintainable methods to convert database rows to Java objects across all DAO classes
+   - **Solution**: Established a pattern with private helper methods (mapResultSetToUser, etc.) for clean and reusable code
+
+4. **DAO Testing Complexity**
+   - **Challenge**: Testing database operations required careful setup and teardown to avoid test pollution
+   - **Solution**: Developed isolated test cases and implemented proper test data management
+
+5. **Main.java Menu Flow**
+   - **Challenge**: Designing an intuitive console interface with nested menus and proper navigation
+   - **Solution**: Implemented modular menu methods with clear back/exit options and input validation
+
+#### Team Collaboration
+- Worked closely with the Services layer to ensure proper DAO method signatures
+- Coordinated with the Models to ensure DAO operations matched entity structures
+- Provided database access methods that other team member built upon
+- Assisted teammate with SQL query optimization and debugging
+
+#### Impact on Project
+The DAO layer serves as the foundation for all data operations in the application. Every feature that reads from or writes to the database relies on the DAO implementations created. The security infrastructure ensures user data protection, while the Main.java interface provides the user-facing access point to all system functionality.
