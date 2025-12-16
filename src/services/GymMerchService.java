@@ -130,4 +130,29 @@ public class GymMerchService {
             logger.severe("Logging failed during deleting gym merchandise: " + e.getMessage());
         }
     }
+
+    // Admins can add new items and set prices, print a report of all items in stock, and
+    // get the total value of their stock of merch.
+
+    /**
+     * Calculates the total value of all gym merchandise in stock.
+     *
+     * @return total stock value
+     */
+    public double calculateTotalStockValue() {
+        try {
+            List<GymMerch> merchList = gymMerchDAO.getAllGymMerch();
+
+            return merchList.stream()
+                    .mapToDouble(m -> m.getMerchPrice() * m.getQuantityInStock())
+                    .sum();
+
+        } catch (Exception e) {
+            System.err.println("Error calculating total stock value: " + e.getMessage());
+            e.printStackTrace();
+            logger.severe("Failed to calculate total stock value: " + e.getMessage());
+            return 0.0;
+        }
+    }
+
 }

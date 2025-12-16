@@ -1,13 +1,16 @@
 import dao.*;
 import java.util.List;
 import java.util.Scanner;
+import java.sql.SQLException;
 import models.*;
 import utils.PasswordUtil;
+import services.*;
 
 /**
  * Main
  * Entry point for Gym Management System.
- * Handles user input, validation, and ensures passwords are hashed before DAO operations.
+ * Handles user input, validation, and ensures passwords are hashed before DAO
+ * operations.
  *
  * Author: Brandon Maloney
  * Updated by: Abiodun Magret Oyedele
@@ -17,6 +20,8 @@ public class Main {
 
     private static final Scanner scanner = new Scanner(System.in);
 
+    private static User currentUser = null; // Controls when user is logged in
+
     private static final UserDAO userDAO = new UserDAO();
     private static final MemberDAO memberDAO = new MemberDAO();
     private static final TrainerDAO trainerDAO = new TrainerDAO();
@@ -24,6 +29,11 @@ public class Main {
     private static final WorkoutClassDAO workoutClassDAO = new WorkoutClassDAO();
     private static final GymMerchDAO gymMerchDAO = new GymMerchDAO();
     private static final MembershipDAO membershipDAO = new MembershipDAO();
+
+    private static final MembershipService membershipService = new MembershipService(membershipDAO);
+    private static final GymMerchService gymMerchService = new GymMerchService(gymMerchDAO);
+    private static final WorkoutClassService workoutClassService = new WorkoutClassService(workoutClassDAO);
+    private static final UserService userService = new UserService(userDAO);
 
     /**
      * Default constructor for Main class.
@@ -40,34 +50,166 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to the Gym Management System!");
 
+        while (currentUser == null) {
+            showAuthMenu();
+        }
+
         boolean running = true;
         while (running) {
-            System.out.println("\nSelect an option:");
-            System.out.println("1. User CRUD");
-            System.out.println("2. Trainer CRUD");
-            System.out.println("3. Member CRUD");
-            System.out.println("4. Admin CRUD");
-            System.out.println("5. WorkoutClass CRUD");
-            System.out.println("6. GymMerch CRUD");
-            System.out.println("7. Membership CRUD");
-            System.out.println("8. Exit");
+            System.out.println("currentUser Role: " + currentUser.getUserRole());
+            switch (currentUser.getUserRole()) {
+                case "Admin" -> showAdminMenu();
+                case "Trainer" -> showTrainerMenu();
+                case "Member" -> showMemberMenu();
+                default -> {
+                    System.out.println("Unknown role. Logging out.");
+                    currentUser = null;
+                    showAuthMenu();
+                }
+            }
+        }
+    }
+
+    /**
+     * Displays the authentication menu for login or registration.
+     */
+    private static void showAuthMenu() {
+        System.out.println("\n1. Login");
+        System.out.println("2. Register");
+        System.out.println("3. Exit");
+
+        String choice = scanner.nextLine();
+
+        switch (choice) {
+            case "1" -> loginUser();
+            case "2" -> createUser();
+            case "3" -> System.exit(0);
+            default -> System.out.println("Invalid option.");
+        }
+    }
+
+    /**
+     * Displays the admin menu and handles admin actions.
+     */
+    private static void showAdminMenu() {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n--- ADMIN MENU ---");
+            System.out.println("1. Manage Users i.e ListAllUsers/UpdateUser/DeleteUser");
+            System.out.println(
+                    "2. Manage Memberships i.e CreateMemberships/ListAllMemberships/UpdateMembership/DeleteMembership/viewTotalRevenue");
+            System.out.println(
+                    "3. Manage Gym Merchandise i.e CreateGymMerch/ListAllGymMerch/UpdateGymMerch/DeleteGymMerch/PrintMerchStockReport");
+            System.out.println("4. Manage Trainers i.e CreateTrainer/ListAllTrainers/UpdateTrainer/DeleteTrainer");
+            System.out.println("5. Manage Members i.e CreateMember/ListAllMembers/UpdateMember/DeleteMember");
+            System.out.println("6. Logout");
 
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1" -> handleUserCRUD();
-                case "2" -> handleTrainerCRUD();
-                case "3" -> handleMemberCRUD();
-                case "4" -> handleAdminCRUD();
-                case "5" -> handleWorkoutClassCRUD();
-                case "6" -> handleGymMerchCRUD();
-                case "7" -> handleMembershipCRUD();
-                case "8" -> {
-                    running = false;
-                    System.out.println("Exiting system. Goodbye!");
-                }
-                default -> System.out.println("Invalid choice. Please try again.");
+                case "2" -> handleMembershipCRUD();
+                case "3" -> handleGymMerchCRUD();
+                case "4" -> handleTrainerCRUD();
+                case "5" -> handleMemberCRUD();
+                case "6" -> logout();
+                default -> System.out.println("Invalid option.");
             }
+        }
+    }
+
+    /**
+     * Displays the trainer menu and handles trainer actions.
+     */
+    private static void showTrainerMenu() {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n--- TRAINER MENU ---");
+            System.out.println(
+                    "1. Manage Workout Classes i.e CreateWorkoutClass/ListMyClasses/UpdateWorkoutClass/DeleteWorkoutClass");
+            System.out.println("2. View All Workout Classes");
+            System.out.println("3. Purchase Membership");
+            System.out.println("4. View Gym Merchandise");
+            System.out.println("5. View My Membership Expenses");
+            System.out.println("6. Logout");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1" -> handleWorkoutClassCRUD();
+                case "2" -> listAllWorkoutClasses();
+                case "3" -> createMembership();
+                case "4" -> listAllGymMerch();
+                case "5" -> viewMemberExpenses();
+                case "6" -> logout();
+                default -> System.out.println("Invalid option.");
+            }
+        }
+    }
+
+    /**
+     * Displays the member menu and handles member actions.
+     */
+    private static void showMemberMenu() {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n--- MEMBER MENU ---");
+            System.out.println("1. Browse Workout Classes");
+            System.out.println("2. Purchase Membership");
+            System.out.println("3. View My Membership Expenses");
+            System.out.println("4. View Gym Merchandise");
+            System.out.println("5. Logout");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1" -> listAllWorkoutClasses();
+                case "2" -> createMembership();
+                case "3" -> viewMemberExpenses();
+                case "4" -> listAllGymMerch();
+                case "5" -> logout();
+                default -> System.out.println("Invalid option.");
+            }
+        }
+    }
+
+    /**
+     * Logs out the current user and returns to the authentication menu.
+     */
+    private static void logout() {
+        currentUser = null;
+        System.out.println("Logged out successfully.");
+        while (currentUser == null) {
+            showAuthMenu();
+        }
+    }
+
+    /**
+     * Logs in a user after validating credentials.
+     */
+    private static void loginUser() {
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine().trim();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine().trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            System.out.println("Error: Username and password cannot be empty.");
+            return;
+        }
+
+        try {
+            User user = userService.login(username, password);
+            if (user == null) {
+                System.out.println("Error: User not found.");
+                return;
+            }
+            // currentUser = userDAO.getUserByUsername(username);
+            currentUser = user;
+            System.out.println("Login successful. Welcome, " + currentUser.getUserName() + "!");
+        } catch (Exception e) {
+            System.out.println("Error during login: " + e.getMessage());
+            return;
         }
     }
 
@@ -78,25 +220,26 @@ public class Main {
     private static void handleUserCRUD() {
         boolean back = false;
         while (!back) {
-            System.out.println("\nUser Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            System.out.println("\nUser Options: 1-List Users 2-Update User 3-Delete User 4-Back");
             String option = scanner.nextLine();
 
             switch (option) {
-                case "1" -> createUser();
-                case "2" -> listAllUsers();
-                case "3" -> updateUser();
-                case "4" -> deleteUser();
-                case "5" -> back = true;
+                case "1" -> listAllUsers();
+                case "2" -> updateUser();
+                case "3" -> deleteUser();
+                case "4" -> back = true;
                 default -> System.out.println("Invalid choice.");
             }
         }
     }
 
     /**
-     * Creates a new user (Admin/Trainer/Member) after validating input and hashing password.
+     * Creates a new user (Admin/Trainer/Member) after validating input and hashing
+     * password.
      */
     private static void createUser() {
-        // This method is now a registration endpoint that creates Admin/Trainer/Member records
+        // This method is now a registration endpoint that creates Admin/Trainer/Member
+        // records
         System.out.print("Enter username: ");
         String username = scanner.nextLine().trim();
         System.out.print("Enter email: ");
@@ -119,13 +262,16 @@ public class Main {
             return;
         }
 
+        // User registeredUser = userService.registerUser(username, email, phone,
+        // address, role, password);
+
         String hashedPassword = PasswordUtil.hashPassword(password);
 
         // Normalize role casing - keep DB values exactly as allowed
         String normalizedRole = role.trim().equalsIgnoreCase("admin") ? "Admin"
                 : role.trim().equalsIgnoreCase("trainer") ? "Trainer"
-                : role.trim().equalsIgnoreCase("member") ? "Member"
-                : "";
+                        : role.trim().equalsIgnoreCase("member") ? "Member"
+                                : "";
 
         if (normalizedRole.isEmpty()) {
             System.out.println("Error: Role must be one of Admin, Trainer, or Member.");
@@ -148,20 +294,24 @@ public class Main {
             }
         }
 
-        System.out.println(created ? normalizedRole + " created successfully." : "Error creating " + normalizedRole + ".");
+        System.out.println(created ? normalizedRole + " created successfully. Please Login with your credentials."
+                : "Error creating " + normalizedRole + ".");
     }
 
     /**
-     *  Lists all users in the system.
+     * Lists all users in the system.
      */
     private static void listAllUsers() {
-        List<User> users = userDAO.getAllUsers();
-        if (users.isEmpty()) System.out.println("No users found.");
-        else users.forEach(System.out::println);
+        List<User> users = userService.getAllUsers();
+        if (users.isEmpty())
+            System.out.println("No users found.");
+        else
+            users.forEach(System.out::println);
     }
 
     /**
-     * Updates an existing user after validating input and hashing password if changed.
+     * Updates an existing user after validating input and hashing password if
+     * changed.
      */
     private static void updateUser() {
         System.out.print("Enter user ID to update: ");
@@ -186,15 +336,18 @@ public class Main {
         System.out.print("New password (blank to keep current): ");
         String password = scanner.nextLine().trim();
 
-        // Use existing values when blanks are provided. (Assumes standard getter names.)
+        // Use existing values when blanks are provided. (Assumes standard getter
+        // names.)
         String finalUsername = username.isEmpty() ? existing.getUserName() : username;
         String finalEmail = email.isEmpty() ? existing.getEmail() : email;
         String finalPhone = phone.isEmpty() ? existing.getUserPhoneNumber() : phone;
         String finalAddress = address.isEmpty() ? existing.getUserAddress() : address;
         String finalRole = role.isEmpty() ? existing.getUserRole() : role;
-        String finalPasswordHash = password.isEmpty() ? existing.getPasswordHash() : PasswordUtil.hashPassword(password);
+        String finalPasswordHash = password.isEmpty() ? existing.getPasswordHash()
+                : PasswordUtil.hashPassword(password);
 
-        User updated = new User(existing.getUserId(), finalUsername, finalPasswordHash, finalEmail, finalPhone, finalAddress, finalRole);
+        User updated = new User(existing.getUserId(), finalUsername, finalPasswordHash, finalEmail, finalPhone,
+                finalAddress, finalRole);
 
         boolean updatedOk = userDAO.updateUser(updated);
         System.out.println(updatedOk ? "User updated successfully." : "Error updating user.");
@@ -217,7 +370,8 @@ public class Main {
     private static void handleTrainerCRUD() {
         boolean back = false;
         while (!back) {
-            System.out.println("\nTrainer Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            System.out.println(
+                    "\nTrainer Options: 1-Create Trainer 2-List All Trainer 3-Update Trainer 4-Delete Trainer 5-Back");
             String option = scanner.nextLine();
 
             switch (option) {
@@ -232,7 +386,7 @@ public class Main {
     }
 
     /**
-     *  Creates a new trainer after validating input and hashing password.
+     * Creates a new trainer after validating input and hashing password.
      */
     private static void createTrainer() {
         System.out.print("Enter trainer name: ");
@@ -264,12 +418,15 @@ public class Main {
      */
     private static void listAllTrainers() {
         List<Trainer> trainers = trainerDAO.getAllTrainers();
-        if (trainers.isEmpty()) System.out.println("No trainers found.");
-        else trainers.forEach(System.out::println);
+        if (trainers.isEmpty())
+            System.out.println("No trainers found.");
+        else
+            trainers.forEach(System.out::println);
     }
 
     /**
-     * Updates an existing trainer after validating input and hashing password if changed.
+     * Updates an existing trainer after validating input and hashing password if
+     * changed.
      */
     private static void updateTrainer() {
         System.out.print("Enter trainer ID to update: ");
@@ -296,9 +453,11 @@ public class Main {
         String finalEmail = email.isEmpty() ? existing.getEmail() : email;
         String finalPhone = phone.isEmpty() ? existing.getUserPhoneNumber() : phone;
         String finalAddress = address.isEmpty() ? existing.getUserAddress() : address;
-        String finalPasswordHash = password.isEmpty() ? existing.getPasswordHash() : PasswordUtil.hashPassword(password);
+        String finalPasswordHash = password.isEmpty() ? existing.getPasswordHash()
+                : PasswordUtil.hashPassword(password);
 
-        Trainer updated = new Trainer(existing.getUserId(), finalName, finalPasswordHash, finalEmail, finalPhone, finalAddress);
+        Trainer updated = new Trainer(existing.getUserId(), finalName, finalPasswordHash, finalEmail, finalPhone,
+                finalAddress);
 
         boolean updatedOk = trainerDAO.updateTrainer(updated);
         System.out.println(updatedOk ? "Trainer updated successfully." : "Error updating trainer.");
@@ -321,7 +480,8 @@ public class Main {
     private static void handleMemberCRUD() {
         boolean back = false;
         while (!back) {
-            System.out.println("\nMember Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            System.out.println(
+                    "\nMember Options: 1-Create Member 2-List All Member 3-Update Member 4-Delete Member 5-Back");
             String option = scanner.nextLine();
 
             switch (option) {
@@ -368,12 +528,15 @@ public class Main {
      */
     private static void listAllMembers() {
         List<Member> members = memberDAO.getAllMembers();
-        if (members.isEmpty()) System.out.println("No members found.");
-        else members.forEach(System.out::println);
+        if (members.isEmpty())
+            System.out.println("No members found.");
+        else
+            members.forEach(System.out::println);
     }
 
     /**
-     * Updates an existing member after validating input and hashing password if changed.
+     * Updates an existing member after validating input and hashing password if
+     * changed.
      */
     private static void updateMember() {
         System.out.print("Enter member ID to update: ");
@@ -400,9 +563,11 @@ public class Main {
         String finalEmail = email.isEmpty() ? existing.getEmail() : email;
         String finalPhone = phone.isEmpty() ? existing.getUserPhoneNumber() : phone;
         String finalAddress = address.isEmpty() ? existing.getUserAddress() : address;
-        String finalPasswordHash = password.isEmpty() ? existing.getPasswordHash() : PasswordUtil.hashPassword(password);
+        String finalPasswordHash = password.isEmpty() ? existing.getPasswordHash()
+                : PasswordUtil.hashPassword(password);
 
-        Member updated = new Member(existing.getUserId(), finalName, finalPasswordHash, finalEmail, finalPhone, finalAddress);
+        Member updated = new Member(existing.getUserId(), finalName, finalPasswordHash, finalEmail, finalPhone,
+                finalAddress);
 
         boolean updatedOk = memberDAO.updateMember(updated);
         System.out.println(updatedOk ? "Member updated successfully." : "Error updating member.");
@@ -420,110 +585,6 @@ public class Main {
     }
 
     /**
-     * ADMIN CRUD
-     */
-    private static void handleAdminCRUD() {
-        boolean back = false;
-        while (!back) {
-            System.out.println("\nAdmin Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
-            String option = scanner.nextLine();
-
-            switch (option) {
-                case "1" -> createAdmin();
-                case "2" -> listAllAdmins();
-                case "3" -> updateAdmin();
-                case "4" -> deleteAdmin();
-                case "5" -> back = true;
-                default -> System.out.println("Invalid choice.");
-            }
-        }
-    }
-
-    /**
-     * Creates a new admin after validating input and hashing password.
-     */
-    private static void createAdmin() {
-        System.out.print("Enter admin name: ");
-        String name = scanner.nextLine().trim();
-        System.out.print("Enter email: ");
-        String email = scanner.nextLine().trim();
-        System.out.print("Enter phone: ");
-        String phone = scanner.nextLine().trim();
-        System.out.print("Enter address: ");
-        String address = scanner.nextLine().trim();
-        System.out.print("Enter password: ");
-        String password = scanner.nextLine().trim();
-
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            System.out.println("Error: Required fields cannot be empty.");
-            return;
-        }
-
-        String hashedPassword = PasswordUtil.hashPassword(password);
-
-        Admin admin = new Admin(0, name, hashedPassword, email, phone, address);
-
-        boolean created = adminDAO.createAdmin(admin);
-        System.out.println(created ? "Admin created successfully." : "Error creating admin.");
-    }
-
-    /**
-     * Lists all admins in the system.
-     */
-    private static void listAllAdmins() {
-        List<Admin> admins = adminDAO.getAllAdmins();
-        if (admins.isEmpty()) System.out.println("No admins found.");
-        else admins.forEach(System.out::println);
-    }
-
-    /**
-     * Updates an existing admin after validating input and hashing password if changed.
-     */
-    private static void updateAdmin() {
-        System.out.print("Enter admin ID to update: ");
-        int adminId = Integer.parseInt(scanner.nextLine());
-
-        Admin existing = adminDAO.getAdminById(adminId);
-        if (existing == null) {
-            System.out.println("Admin not found.");
-            return;
-        }
-
-        System.out.print("New name (blank to keep current): ");
-        String name = scanner.nextLine().trim();
-        System.out.print("New email (blank to keep current): ");
-        String email = scanner.nextLine().trim();
-        System.out.print("New phone (blank to keep current): ");
-        String phone = scanner.nextLine().trim();
-        System.out.print("New address (blank to keep current): ");
-        String address = scanner.nextLine().trim();
-        System.out.print("New password (blank to keep current): ");
-        String password = scanner.nextLine().trim();
-
-        String finalName = name.isEmpty() ? existing.getUserName() : name;
-        String finalEmail = email.isEmpty() ? existing.getEmail() : email;
-        String finalPhone = phone.isEmpty() ? existing.getUserPhoneNumber() : phone;
-        String finalAddress = address.isEmpty() ? existing.getUserAddress() : address;
-        String finalPasswordHash = password.isEmpty() ? existing.getPasswordHash() : PasswordUtil.hashPassword(password);
-
-        Admin updated = new Admin(existing.getUserId(), finalName, finalPasswordHash, finalEmail, finalPhone, finalAddress);
-
-        boolean updatedOk = adminDAO.updateAdmin(updated);
-        System.out.println(updatedOk ? "Admin updated successfully." : "Error updating admin.");
-    }
-
-    /**
-     * Deletes an admin by ID.
-     */
-    private static void deleteAdmin() {
-        System.out.print("Enter admin ID to delete: ");
-        int adminId = Integer.parseInt(scanner.nextLine());
-
-        boolean deleted = adminDAO.deleteAdmin(adminId);
-        System.out.println(deleted ? "Admin deleted successfully." : "Error deleting admin.");
-    }
-
-    /**
      * WORKOUT CLASS CRUD
      */
     private static void handleWorkoutClassCRUD() {
@@ -534,7 +595,7 @@ public class Main {
 
             switch (option) {
                 case "1" -> createWorkoutClass();
-                case "2" -> listAllWorkoutClasses();
+                case "2" -> listTrainerClasses();
                 case "3" -> updateWorkoutClass();
                 case "4" -> deleteWorkoutClass();
                 case "5" -> back = true;
@@ -570,8 +631,29 @@ public class Main {
      */
     private static void listAllWorkoutClasses() {
         List<WorkoutClass> classes = workoutClassDAO.getAllWorkoutClasses();
-        if (classes.isEmpty()) System.out.println("No workout classes found.");
-        else classes.forEach(System.out::println);
+        if (classes.isEmpty())
+            System.out.println("No workout classes found.");
+        else
+            classes.forEach(System.out::println);
+    }
+
+    /**
+     * Get Trainer workout classes
+     */
+    private static void listTrainerClasses() {
+        System.out.print("Enter your Trainer ID: "); // I NEED TO GET THE TRINAER ID MYSELF
+        int trainerId = Integer.parseInt(scanner.nextLine());
+
+        try {
+            List<WorkoutClass> classes = workoutClassService.getWorkoutClassesByTrainerId(trainerId);
+            if (classes.isEmpty()) {
+                System.out.println("No classes found for this trainer.");
+            } else {
+                classes.forEach(System.out::println);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving classes: " + e.getMessage());
+        }
     }
 
     /**
@@ -598,7 +680,8 @@ public class Main {
         String finalDescription = description.isEmpty() ? existing.getWorkoutClassDescription() : description;
         int finalTrainerId = trainerInput.isEmpty() ? existing.getTrainerID() : Integer.parseInt(trainerInput);
 
-        WorkoutClass updated = new WorkoutClass(existing.getWorkoutClassID(), finalType, finalDescription, finalTrainerId);
+        WorkoutClass updated = new WorkoutClass(existing.getWorkoutClassID(), finalType, finalDescription,
+                finalTrainerId);
 
         boolean updatedOk = workoutClassDAO.updateWorkoutClass(updated);
         System.out.println(updatedOk ? "Workout class updated successfully." : "Error updating workout class.");
@@ -621,7 +704,8 @@ public class Main {
     private static void handleGymMerchCRUD() {
         boolean back = false;
         while (!back) {
-            System.out.println("\nGymMerch Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            System.out.println(
+                    "\nGymMerch Options: 1-Create GymMerch 2-List All GymMerch 3-Update GymMerch 4-Delete GymMerch 5-PrintMerchStockReport 6-Back");
             String option = scanner.nextLine();
 
             switch (option) {
@@ -629,7 +713,8 @@ public class Main {
                 case "2" -> listAllGymMerch();
                 case "3" -> updateGymMerch();
                 case "4" -> deleteGymMerch();
-                case "5" -> back = true;
+                case "5" -> printMerchStockReport();
+                case "6" -> back = true;
                 default -> System.out.println("Invalid choice.");
             }
         }
@@ -659,8 +744,10 @@ public class Main {
      */
     private static void listAllGymMerch() {
         List<GymMerch> merchList = gymMerchDAO.getAllGymMerch();
-        if (merchList.isEmpty()) System.out.println("No merch found.");
-        else merchList.forEach(System.out::println);
+        if (merchList.isEmpty())
+            System.out.println("No merch found.");
+        else
+            merchList.forEach(System.out::println);
     }
 
     /**
@@ -708,12 +795,39 @@ public class Main {
     }
 
     /**
+     * Prints a report of all gym merchandise stock with total values.
+     */
+    private static void printMerchStockReport() {
+        List<GymMerch> merchList = gymMerchService.getAllMerch();
+
+        if (merchList == null || merchList.isEmpty()) {
+            System.out.println("No merchandise in stock.");
+            return;
+        }
+
+        System.out.println("\n--- GYM MERCH STOCK REPORT ---");
+        System.out.printf("%-5s %-20s %-10s %-10s %-10s%n",
+                "ID", "Name", "Price", "Quantity", "Value");
+
+        for (GymMerch merch : merchList) {
+            double value = merch.getMerchPrice() * merch.getQuantityInStock();
+            System.out.printf("%-5d %-20s %-10.2f %-10d %-10.2f%n",
+                    merch.getMerchID(),
+                    merch.getMerchName(),
+                    merch.getMerchPrice(),
+                    merch.getQuantityInStock(),
+                    value);
+        }
+    }
+
+    /**
      * MEMBERSHIP CRUD
      */
     private static void handleMembershipCRUD() {
         boolean back = false;
         while (!back) {
-            System.out.println("\nMembership Options: 1-Create 2-View 3-Update 4-Delete 5-Back");
+            System.out.println(
+                    "\nMembership Options: 1-Create Membership 2-List All Memberships 3-Update Membership 4-Delete MEmebership 5-View Total Revenue 6-View Member Expenses 7-Back");
             String option = scanner.nextLine();
 
             switch (option) {
@@ -721,7 +835,9 @@ public class Main {
                 case "2" -> listAllMemberships();
                 case "3" -> updateMembership();
                 case "4" -> deleteMembership();
-                case "5" -> back = true;
+                case "5" -> viewTotalRevenue();
+                case "6" -> viewMemberExpenses();
+                case "7" -> back = true;
                 default -> System.out.println("Invalid choice.");
             }
         }
@@ -742,17 +858,23 @@ public class Main {
 
         Membership membership = new Membership(0, type, description, price, memberId);
 
-        boolean created = membershipDAO.createMembership(membership);
-        System.out.println(created ? "Membership created successfully." : "Error creating membership.");
+        Membership membershipCreated = membershipService.addMembership(membership);
+        if (membershipCreated != null) {
+            System.out.println("Membership created successfully: " + membershipCreated);
+        } else {
+            System.out.println("Error creating membership.");
+        }
     }
 
     /**
      * Lists all memberships in the system.
      */
     private static void listAllMemberships() {
-        List<Membership> memberships = membershipDAO.getAllMemberships();
-        if (memberships.isEmpty()) System.out.println("No memberships found.");
-        else memberships.forEach(System.out::println);
+        List<Membership> memberships = membershipService.getAllMemberships();
+        if (memberships.isEmpty())
+            System.out.println("No memberships found.");
+        else
+            memberships.forEach(System.out::println);
     }
 
     /**
@@ -762,7 +884,7 @@ public class Main {
         System.out.print("Enter membership ID to update: ");
         int membershipId = Integer.parseInt(scanner.nextLine());
 
-        Membership existing = membershipDAO.getMembershipById(membershipId);
+        Membership existing = membershipService.getMembership(membershipId);
         if (existing == null) {
             System.out.println("Membership not found.");
             return;
@@ -782,9 +904,10 @@ public class Main {
         double finalPrice = priceInput.isEmpty() ? existing.getMembershipCost() : Double.parseDouble(priceInput);
         int finalMemberId = memberInput.isEmpty() ? existing.getMemberID() : Integer.parseInt(memberInput);
 
-        Membership updated = new Membership(existing.getMembershipID(), finalType, finalDescription, finalPrice, finalMemberId);
+        Membership updated = new Membership(existing.getMembershipID(), finalType, finalDescription, finalPrice,
+                finalMemberId);
 
-        boolean updatedOk = membershipDAO.updateMembership(updated);
+        boolean updatedOk = membershipService.updateMembership(updated);
         System.out.println(updatedOk ? "Membership updated successfully." : "Error updating membership.");
     }
 
@@ -795,7 +918,29 @@ public class Main {
         System.out.print("Enter membership ID to delete: ");
         int membershipId = Integer.parseInt(scanner.nextLine());
 
-        boolean deleted = membershipDAO.deleteMembership(membershipId);
+        boolean deleted = membershipService.deleteMembership(membershipId);
         System.out.println(deleted ? "Membership deleted successfully." : "Error deleting membership.");
+    }
+
+    /**
+     * Views total revenue from memberships.
+     */
+    private static void viewTotalRevenue() {
+        double total = membershipService.viewTotalRevenue();
+        System.out.println("Total Revenue from Memberships: $" + total);
+    }
+
+    /**
+     * Views the current member's total expenses on memberships.
+     */
+    private static void viewMemberExpenses() {
+        if (!currentUser.getUserRole().equalsIgnoreCase("Member")) {
+            System.out.println("Access denied. Members only.");
+            return;
+        }
+
+        double total = membershipService.calculateMemberExpenses(currentUser.getUserId());
+
+        System.out.println("Your total membership expenses: $" + total);
     }
 }

@@ -93,17 +93,21 @@ public class MembershipService {
      * Update an existing membership.
      * 
      * @param membership The Membership object with updated details.
+     * @return true if the update was successful; false otherwise.
      */
-    public void updateMembership(Membership membership) {
+    public boolean updateMembership(Membership membership) {
         try {
             boolean success = membershipDAO.updateMembership(membership);
             if (success) {
                 logger.info("Membership updated successfully: ID " + membership.getMembershipID());
+                return true;
             } else {
                 logger.warning("Failed to update membership: ID " + membership.getMembershipID());
+                return false;
             }
         } catch (Exception e) {
             logger.severe("Error updating membership: " + e.getMessage());
+            return false;
         }
     }
 
@@ -111,17 +115,43 @@ public class MembershipService {
      * Delete a membership by its ID.
      * 
      * @param id The ID of the membership to delete.
+     * @return true if deletion was successful; false otherwise.
      */
-    public void deleteMembership(int id) {
+    public boolean deleteMembership(int id) {
         try {
             boolean success = membershipDAO.deleteMembership(id);
             if (success) {
                 logger.info("Membership deleted successfully: ID " + id);
+                return true;
             } else {
                 logger.warning("Failed to delete membership: ID " + id);
+                return false;
             }
         } catch (Exception e) {
             logger.severe("Error deleting membership: " + e.getMessage());
+            return false;
         }
+    }
+
+    /**
+     * View total revenue from all memberships.
+     * @return total revenue
+     */
+    public double viewTotalRevenue() {
+        return membershipDAO.getAllMemberships()
+                .stream()
+                .mapToDouble(Membership::getMembershipCost)
+                .sum();
+    }
+
+    /**
+     * Calculates total membership expenses for a specific member.
+     *
+     * @param memberId ID of the member
+     * @return total expenses
+     */
+    public double calculateMemberExpenses(int memberId) {
+        Membership membership = membershipDAO.getMembershipById(memberId);
+        return membership != null ? membership.getMembershipCost() : 0.0;
     }
 }
