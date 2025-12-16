@@ -50,21 +50,27 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to the Gym Management System!");
 
-        while (currentUser == null) {
-            showAuthMenu();
-        }
+        while (true) {
 
-        boolean running = true;
-        while (running) {
-            System.out.println("currentUser Role: " + currentUser.getUserRole());
-            switch (currentUser.getUserRole()) {
+            while (currentUser == null) {
+                currentUser = showAuthMenu();
+            }
+
+            String role = currentUser.getUserRole();
+            if (role == null) {
+                System.out.println("Error: User role is undefined. Logging out.");
+                currentUser = null;
+                continue;
+            }
+
+            switch (role.trim()) {
                 case "Admin" -> showAdminMenu();
                 case "Trainer" -> showTrainerMenu();
                 case "Member" -> showMemberMenu();
                 default -> {
                     System.out.println("Unknown role. Logging out.");
                     currentUser = null;
-                    showAuthMenu();
+                    currentUser = showAuthMenu();
                 }
             }
         }
@@ -73,7 +79,7 @@ public class Main {
     /**
      * Displays the authentication menu for login or registration.
      */
-    private static void showAuthMenu() {
+    private static User showAuthMenu() {
         System.out.println("\n1. Login");
         System.out.println("2. Register");
         System.out.println("3. Exit");
@@ -81,10 +87,18 @@ public class Main {
         String choice = scanner.nextLine();
 
         switch (choice) {
-            case "1" -> loginUser();
-            case "2" -> createUser();
-            case "3" -> System.exit(0);
-            default -> System.out.println("Invalid option.");
+            case "1":
+                User user = loginUser();
+                return user;
+            case "2":
+                createUser();
+                return null;
+            case "3":
+                System.exit(0);
+                return null;
+            default:
+                System.out.println("Invalid option.");
+                return null;
         }
     }
 
@@ -112,7 +126,10 @@ public class Main {
                 case "3" -> handleGymMerchCRUD();
                 case "4" -> handleTrainerCRUD();
                 case "5" -> handleMemberCRUD();
-                case "6" -> logout();
+                case "6" -> {
+                    logout();
+                    back = true;
+                }
                 default -> System.out.println("Invalid option.");
             }
         }
@@ -141,7 +158,10 @@ public class Main {
                 case "3" -> createMembership();
                 case "4" -> listAllGymMerch();
                 case "5" -> viewMemberExpenses();
-                case "6" -> logout();
+                case "6" -> {
+                    logout();
+                    back = true;
+                }
                 default -> System.out.println("Invalid option.");
             }
         }
@@ -167,7 +187,10 @@ public class Main {
                 case "2" -> createMembership();
                 case "3" -> viewMemberExpenses();
                 case "4" -> listAllGymMerch();
-                case "5" -> logout();
+                case "5" -> {
+                    logout();
+                    back = true;
+                }
                 default -> System.out.println("Invalid option.");
             }
         }
@@ -179,15 +202,15 @@ public class Main {
     private static void logout() {
         currentUser = null;
         System.out.println("Logged out successfully.");
-        while (currentUser == null) {
-            showAuthMenu();
-        }
+        // while (currentUser == null) {
+        // currentUser = showAuthMenu();
+        // }
     }
 
     /**
      * Logs in a user after validating credentials.
      */
-    private static void loginUser() {
+    private static User loginUser() {
         System.out.print("Enter username: ");
         String username = scanner.nextLine().trim();
         System.out.print("Enter password: ");
@@ -195,21 +218,24 @@ public class Main {
 
         if (username.isEmpty() || password.isEmpty()) {
             System.out.println("Error: Username and password cannot be empty.");
-            return;
+            return null;
         }
 
         try {
             User user = userService.login(username, password);
             if (user == null) {
                 System.out.println("Error: User not found.");
-                return;
+                return null;
             }
             // currentUser = userDAO.getUserByUsername(username);
-            currentUser = user;
-            System.out.println("Login successful. Welcome, " + currentUser.getUserName() + "!");
+            // currentUser = user;
+            // System.out.println("Login successful. Welcome, " + currentUser.getUserName()
+            // + "!");
+            System.out.println("Login successful. Welcome, " + user.getUserName() + "!");
+            return user;
         } catch (Exception e) {
             System.out.println("Error during login: " + e.getMessage());
-            return;
+            return null;
         }
     }
 
