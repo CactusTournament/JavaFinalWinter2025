@@ -113,6 +113,35 @@ public class MembershipDAO {
     }
 
     /**
+     * Retrieves memberships belonging to a specific member.
+     *
+     * @param memberId the member's userId
+     * @return list of Membership objects for that member; empty list if none
+     */
+    public List<Membership> getMembershipsByMemberId(int memberId) {
+        List<Membership> list = new ArrayList<>();
+        String query = "SELECT * FROM Memberships WHERE memberID = ?";
+        try (Connection conn = DatabaseConnection.getcon();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, memberId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Membership(
+                    rs.getInt("membershipID"),
+                    rs.getString("membershipType"),
+                    rs.getString("membershipDescription"),
+                    rs.getDouble("membershipCost"),
+                    rs.getInt("memberID")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    /**
      * Updates an existing membership in the database.
      * @param membership The Membership object with updated information.
      * @return true if the membership was updated successfully, false otherwise.

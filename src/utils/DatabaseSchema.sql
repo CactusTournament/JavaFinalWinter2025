@@ -64,3 +64,27 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO <DBUSER>;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
 GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO <DBUSER>;
+
+-- ===========================
+-- Membership Plans (catalog)
+-- ===========================
+-- Provides a DB-backed catalog of plans users can purchase.
+-- The application expects a table named MembershipPlans with the
+-- columns defined below. Seed rows are added for Basic/Standard/Premium.
+CREATE TABLE IF NOT EXISTS MembershipPlans (
+        planId SERIAL PRIMARY KEY,
+        planType TEXT NOT NULL,
+        planDescription TEXT,
+        planPrice NUMERIC(10,2) NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+INSERT INTO MembershipPlans (planType, planDescription, planPrice) VALUES
+    ('Basic',    'Access to gym during staffed hours. No classes.', 19.99),
+    ('Standard', 'Access to gym + select group classes.',           39.99),
+    ('Premium',  'All-access: gym, classes, and premium amenities.',69.99)
+ON CONFLICT DO NOTHING;
+
+-- Grant permissions on MembershipPlans table and sequence
+GRANT SELECT, INSERT, UPDATE, DELETE ON MembershipPlans TO <DBUSER>;
+GRANT USAGE, SELECT, UPDATE ON SEQUENCE MembershipPlans_planId_seq TO <DBUSER>;

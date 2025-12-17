@@ -1,10 +1,12 @@
 package services;
 
 import dao.MembershipDAO;
-import models.Membership;
+import dao.MembershipPlanDAO;
 import java.util.List;
-import utils.LoggerUtil;
 import java.util.logging.Logger;
+import models.Membership;
+import models.MembershipPlan;
+import utils.LoggerUtil;
 
 /**
  * MembershipService
@@ -20,6 +22,7 @@ public class MembershipService {
      * Logger for logging events.
      */
     private MembershipDAO membershipDAO;
+    private MembershipPlanDAO membershipPlanDAO = new MembershipPlanDAO();
     private static final Logger logger = LoggerUtil.getLogger();
 
     /**
@@ -29,6 +32,40 @@ public class MembershipService {
      */
     public MembershipService(MembershipDAO membershipDAO) {
         this.membershipDAO = membershipDAO;
+    }
+
+    /**
+     * Returns all available membership plans from the catalog.
+     */
+    public List<MembershipPlan> getAvailablePlans() {
+        try {
+            return membershipPlanDAO.getAllPlans();
+        } catch (Exception e) {
+            logger.severe("Error retrieving membership plans: " + e.getMessage());
+            return List.of();
+        }
+    }
+
+    /**
+     * Purchases the specified plan for the given member (creates a Membership record).
+     * @param planId plan id from the catalog
+     * @param memberId user id of purchasing member
+     * @return created Membership or null
+     */
+    public Membership purchasePlan(int planId, int memberId) {
+        try {
+            MembershipPlan plan = membershipPlanDAO.getPlanById(planId);
+            if (plan == null) {
+                logger.warning("Requested plan not found: " + planId);
+                return null;
+            }
+            Membership membership = new Membership(0, plan.getPlanType(), plan.getPlanDescription(), plan.getPlanPrice(), memberId);
+            boolean ok = membershipDAO.createMembership(membership);
+            return ok ? membership : null;
+        } catch (Exception e) {
+            logger.severe("Error purchasing plan: " + e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -151,7 +188,12 @@ public class MembershipService {
      * @return total expenses
      */
     public double calculateMemberExpenses(int memberId) {
-        Membership membership = membershipDAO.getMembershipById(memberId);
-        return membership != null ? membership.getMembershipCost() : 0.0;
+        try {
+            List<Membership> list = membershipDAO.getMembershipsByMemberId(memberId);
+            return list.stream().mapToDouble(Membership::getMembershipCost).sum();
+        } catch (Exception e) {
+            logger.severe("Error calculating member expenses: " + e.getMessage());
+            return 0.0;
+        }
     }
 }
