@@ -1,10 +1,10 @@
 import dao.*;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
-import java.sql.SQLException;
 import models.*;
-import utils.PasswordUtil;
 import services.*;
+import utils.PasswordUtil;
 
 /**
  * Main
@@ -35,6 +35,8 @@ public class Main {
     private static final WorkoutClassService workoutClassService = new WorkoutClassService(workoutClassDAO);
     private static final UserService userService = new UserService(userDAO);
 
+        // Membership plans are stored in the DB and accessed via MembershipService
+
     /**
      * Default constructor for Main class.
      */
@@ -56,15 +58,29 @@ public class Main {
 
         boolean running = true;
         while (running) {
+            if (currentUser == null) {
+                showAuthMenu();
+                if (currentUser == null) {
+                    continue;
+                }
+            }
+            
             System.out.println("currentUser Role: " + currentUser.getUserRole());
-            switch (currentUser.getUserRole()) {
-                case "Admin" -> showAdminMenu();
-                case "Trainer" -> showTrainerMenu();
-                case "Member" -> showMemberMenu();
+            String role = currentUser.getUserRole();
+            
+            if (role == null || role.trim().isEmpty()) {
+                System.out.println("Error: User role is null or empty. Logging out.");
+                currentUser = null;
+                continue;
+            }
+            
+            switch (role.trim().toLowerCase()) {
+                case "admin" -> showAdminMenu();
+                case "trainer" -> showTrainerMenu();
+                case "member" -> showMemberMenu();
                 default -> {
-                    System.out.println("Unknown role. Logging out.");
+                    System.out.println("Unknown role: '" + role + "'. Logging out.");
                     currentUser = null;
-                    showAuthMenu();
                 }
             }
         }
@@ -72,6 +88,12 @@ public class Main {
 
     /**
      * Displays the authentication menu for login or registration.
+     * Presents options to the user and routes to the appropriate handler
+     * (login, register, or exit).
+     *
+     * <p>This method reads from {@code System.in} using the shared
+     * {@code scanner} and does not return a value; it will call other
+     * methods that may change the {@code currentUser} state.</p>
      */
     private static void showAuthMenu() {
         System.out.println("\n1. Login");
@@ -90,6 +112,10 @@ public class Main {
 
     /**
      * Displays the admin menu and handles admin actions.
+     *
+     * <p>Admin-specific actions (user/membership/merch/trainer/member
+     * management) are dispatched from this menu. Selecting logout will
+     * clear {@code currentUser} and return control to the main loop.</p>
      */
     private static void showAdminMenu() {
         boolean back = false;
@@ -112,7 +138,10 @@ public class Main {
                 case "3" -> handleGymMerchCRUD();
                 case "4" -> handleTrainerCRUD();
                 case "5" -> handleMemberCRUD();
-                case "6" -> logout();
+                case "6" -> {
+                    logout();
+                    back = true;
+                }
                 default -> System.out.println("Invalid option.");
             }
         }
@@ -120,6 +149,10 @@ public class Main {
 
     /**
      * Displays the trainer menu and handles trainer actions.
+     *
+     * <p>Trainer actions include managing workout classes, viewing
+     * merchandise and purchasing memberships. Selecting logout will
+     * clear {@code currentUser} and return control to the main loop.</p>
      */
     private static void showTrainerMenu() {
         boolean back = false;
@@ -138,10 +171,13 @@ public class Main {
             switch (choice) {
                 case "1" -> handleWorkoutClassCRUD();
                 case "2" -> listAllWorkoutClasses();
-                case "3" -> createMembership();
+                case "3" -> purchaseMembership();
                 case "4" -> listAllGymMerch();
                 case "5" -> viewMemberExpenses();
-                case "6" -> logout();
+                case "6" -> {
+                    logout();
+                    back = true;
+                }
                 default -> System.out.println("Invalid option.");
             }
         }
@@ -149,6 +185,10 @@ public class Main {
 
     /**
      * Displays the member menu and handles member actions.
+     *
+     * <p>Member actions include browsing classes, purchasing memberships
+     * and viewing expenses. Selecting logout will clear
+     * {@code currentUser} and return control to the main loop.</p>
      */
     private static void showMemberMenu() {
         boolean back = false;
@@ -164,28 +204,37 @@ public class Main {
 
             switch (choice) {
                 case "1" -> listAllWorkoutClasses();
-                case "2" -> createMembership();
+                case "2" -> purchaseMembership();
                 case "3" -> viewMemberExpenses();
                 case "4" -> listAllGymMerch();
-                case "5" -> logout();
+                case "5" -> {
+                    logout();
+                    back = true;
+                }
                 default -> System.out.println("Invalid option.");
             }
         }
     }
 
     /**
-     * Logs out the current user and returns to the authentication menu.
+     * Logs out the current user.
+     *
+     * <p>This clears {@code currentUser} so the main loop will prompt the
+     * authentication menu again.</p>
      */
     private static void logout() {
         currentUser = null;
         System.out.println("Logged out successfully.");
-        while (currentUser == null) {
-            showAuthMenu();
-        }
     }
 
     /**
-     * Logs in a user after validating credentials.
+     * Prompts for username and password and attempts to authenticate.
+     *
+     * <p>On successful authentication this method sets {@code currentUser}
+     * to the authenticated {@code User}. If authentication fails it prints
+     * an error message and leaves {@code currentUser} unchanged.</p>
+     *
+     * @see services.UserService#login(String, String)
      */
     private static void loginUser() {
         System.out.print("Enter username: ");
@@ -201,14 +250,15 @@ public class Main {
         try {
             User user = userService.login(username, password);
             if (user == null) {
-                System.out.println("Error: User not found.");
+                System.out.println("Error: User not found or invalid password.");
                 return;
             }
             // currentUser = userDAO.getUserByUsername(username);
             currentUser = user;
-            System.out.println("Login successful. Welcome, " + currentUser.getUserName() + "!");
+            System.out.println("Login successful. Welcome, " + currentUser.getUserName() + " User ID: " + currentUser.getUserId() + "!");
         } catch (Exception e) {
             System.out.println("Error during login: " + e.getMessage());
+            e.printStackTrace();
             return;
         }
     }
@@ -847,7 +897,7 @@ public class Main {
      * Creates a new membership after validating input.
      */
     private static void createMembership() {
-        System.out.print("Enter membership type: ");
+        System.out.print("Enter membership type(Standard, Premium, VIP): ");
         String type = scanner.nextLine().trim();
         System.out.print("Enter description: ");
         String description = scanner.nextLine().trim();
@@ -863,6 +913,58 @@ public class Main {
             System.out.println("Membership created successfully: " + membershipCreated);
         } else {
             System.out.println("Error creating membership.");
+        }
+    }
+
+    /**
+     * Purchase flow for logged-in users. Presents predefined membership
+     * options (type/description/price) and signs up the current user for the
+     * selected membership.
+     */
+    private static void purchaseMembership() {
+        if (currentUser == null) {
+            System.out.println("You must be logged in to purchase a membership.");
+            return;
+        }
+        List<MembershipPlan> plans = membershipService.getAvailablePlans();
+        if (plans == null || plans.isEmpty()) {
+            System.out.println("No membership plans available at this time.");
+            return;
+        }
+
+        System.out.println("\nAvailable Membership Plans:");
+        for (int i = 0; i < plans.size(); i++) {
+            MembershipPlan p = plans.get(i);
+            System.out.printf("%d) %s - %s ($%.2f)%n", i + 1, p.getPlanType(), p.getPlanDescription(), p.getPlanPrice());
+        }
+        System.out.println("0) Cancel");
+        System.out.print("Select a membership: ");
+
+        String input = scanner.nextLine().trim();
+        int choice;
+        try {
+            choice = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid selection.");
+            return;
+        }
+
+        if (choice == 0) {
+            System.out.println("Membership purchase cancelled.");
+            return;
+        }
+
+        if (choice < 1 || choice > plans.size()) {
+            System.out.println("Invalid selection.");
+            return;
+        }
+
+        MembershipPlan selected = plans.get(choice - 1);
+        Membership created = membershipService.purchasePlan(selected.getPlanId(), currentUser.getUserId());
+        if (created != null) {
+            System.out.println("Successfully purchased membership: " + created.getMembershipType() + " ($" + created.getMembershipCost() + ")");
+        } else {
+            System.out.println("Error processing membership purchase.");
         }
     }
 

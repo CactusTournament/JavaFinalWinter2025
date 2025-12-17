@@ -66,7 +66,7 @@ public class TestAllServices {
         User user = new User(0, "User One", "password123", email, "7778889999", "789 Main St", "Member");
 
         // Register
-        userService.registerUser(user);
+        userDAO.createUser(user);
         System.out.println("User registered: " + user);
 
         // Login

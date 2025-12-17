@@ -6,6 +6,15 @@ import org.mindrot.jbcrypt.BCrypt;
  * PasswordUtil
  * Utility class for hashing and verifying passwords using bcrypt.
  *
+ * <p>Purpose: provide a single, secure implementation for password
+ * hashing and verification so plaintext passwords are never stored.
+ * This centralizes configuration (bcrypt workload) and prevents
+ * accidental insecure handling elsewhere in the codebase.</p>
+ *
+ * <p>Where used: called by `services.UserService` during registration
+ * and login flows and by DAOs when creating/updating user records to
+ * ensure only bcrypt hashes are persisted.</p>
+ *
  * Author: Brandon Maloney
  * Date: 2025-12-07
  */

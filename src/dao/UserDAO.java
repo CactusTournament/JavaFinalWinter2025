@@ -12,7 +12,7 @@ import utils.DatabaseConnection;
  * Passwords are securely hashed using bcrypt before being stored.
  *
  * Author: Brandon Maloney
- * Updated: 2025-12-08
+ * Date: 2025-12-08
  */
 public class UserDAO {
 
