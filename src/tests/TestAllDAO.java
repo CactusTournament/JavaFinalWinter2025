@@ -33,6 +33,7 @@ public class TestAllDAO {
         try { testGymMerchDAO(); } catch (SQLException e) { System.err.println("GymMerchDAO test failed: " + e.getMessage()); }
         try { testMembershipDAO(); } catch (SQLException e) { System.err.println("MembershipDAO test failed: " + e.getMessage()); }
         try { testWorkoutClassDAO(); } catch (SQLException e) { System.err.println("WorkoutClassDAO test failed: " + e.getMessage()); }
+        try { testMembershipPlanDAO(); } catch (SQLException e) { System.err.println("MembershipPlanDAO test failed: " + e.getMessage()); }
 
         // Optional cleanup for test users
         if (args.length > 0 && args[0].equalsIgnoreCase("--cleanup")) {
@@ -251,6 +252,41 @@ public class TestAllDAO {
 
         boolean trainerDeleted = trainerDAO.deleteTrainer(trainerId);
         System.out.println("Trainer deleted after test: " + trainerDeleted);
+    }
+
+    /**
+     * Test MembershipPlanDAO functionalities.
+     * @throws SQLException if a database access error occurs.
+     */
+    private static void testMembershipPlanDAO() throws SQLException {
+        System.out.println("\nTesting MembershipPlanDAO...");
+        MembershipPlanDAO dao = new MembershipPlanDAO();
+
+        // Test getAllPlans
+        List<MembershipPlan> plans = dao.getAllPlans();
+        System.out.println("All Membership Plans: " + plans.size() + " found");
+        if (!plans.isEmpty()) {
+            plans.forEach(System.out::println);
+        }
+
+        // Test getPlanById if plans exist
+        if (!plans.isEmpty()) {
+            MembershipPlan firstPlan = plans.get(0);
+            MembershipPlan retrieved = dao.getPlanById(firstPlan.getPlanId());
+            System.out.println("Retrieved plan by ID: " + retrieved);
+            
+            if (retrieved != null) {
+                System.out.println("Plan retrieval successful: " + 
+                    (retrieved.getPlanId() == firstPlan.getPlanId() && 
+                     retrieved.getPlanType().equals(firstPlan.getPlanType())));
+            } else {
+                System.out.println("Plan retrieval failed - returned null");
+            }
+        }
+
+        // Test non-existent plan
+        MembershipPlan nonExistent = dao.getPlanById(99999);
+        System.out.println("Non-existent plan returns null: " + (nonExistent == null));
     }
 
     /**
