@@ -1372,5 +1372,10 @@ Developed and implemented the complete DAO layer responsible for all database op
 - Provided database access methods that other team member built upon
 - Assisted teammate with SQL query optimization and debugging
 
+#### Live Demo
+```
+https://youtu.be/Ut9ake7GVQg
+```
+
 #### Impact on Project
 The DAO layer serves as the foundation for all data operations in the application. Every feature that reads from or writes to the database relies on the DAO implementations created. The security infrastructure ensures user data protection, while the Main.java interface provides the user-facing access point to all system functionality.
